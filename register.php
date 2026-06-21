@@ -12,9 +12,9 @@ $msg = '';
 $error = '';
 if(isset($_POST['register'])) {
     $user = new User();
-    $username = trim($_POST['username']);
-    $email = trim($_POST['email']);
-    $password = $_POST['password'];
+    $username = trim($_POST['username'] ?? '');
+    $email = trim($_POST['email'] ?? '');
+    $password = $_POST['password'] ?? '';
 
     if (strlen($username) < 3 || strlen($username) > 20) {
         $error = "Username harus antara 3 hingga 20 karakter.";

@@ -24,8 +24,8 @@ if (isset($_SESSION['lockout_time']) && time() < $_SESSION['lockout_time']) {
 
 if(isset($_POST['login']) && empty($error)) {
     $user = new User();
-    $username = trim($_POST['username']);
-    $password = $_POST['password'];
+    $username = trim($_POST['username'] ?? '');
+    $password = $_POST['password'] ?? '';
 
     $data = $user->login($username, $password);
 
