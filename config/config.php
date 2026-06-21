@@ -1,4 +1,10 @@
 <?php
+
+require 'vendor/autoload.php';
+
+$dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__));
+$dotenv->load();
+
 class Database {
     protected $conn;
 
@@ -7,10 +13,10 @@ class Database {
     }
 
     protected function connect() {
-        $host = "localhost";
-        $user = "root";
-        $pass = "";
-        $db   = "projectuas";
+        $host = $_ENV['DB_HOST'];
+        $user = $_ENV['DB_USER'];
+        $pass = $_ENV['DB_PASS'];
+        $db = $_ENV['DB_NAME'];
 
         $this->conn = new mysqli($host, $user, $pass, $db);
 
