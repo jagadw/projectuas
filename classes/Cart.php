@@ -5,7 +5,6 @@ class Cart extends Database {
     }
 
     public function addToCart($user_id, $game_id) {
-        // Cek apakah user udah punya keranjang utama
         $stmtCart = $this->conn->prepare("SELECT id FROM carts WHERE user_id = ?");
         $stmtCart->bind_param("i", $user_id);
         $stmtCart->execute();
@@ -15,21 +14,18 @@ class Cart extends Database {
             $cart = $resCart->fetch_assoc();
             $cart_id = $cart['id'];
         } else {
-            // Kalau belum, buatin keranjangnya
             $stmtNew = $this->conn->prepare("INSERT INTO carts (user_id) VALUES (?)");
             $stmtNew->bind_param("i", $user_id);
             $stmtNew->execute();
             $cart_id = $this->conn->insert_id;
         }
 
-        // Cek apakah game udah ada di dalam cart_items
         $cek = $this->conn->prepare("SELECT id FROM cart_items WHERE cart_id = ? AND game_id = ?");
         $cek->bind_param("ii", $cart_id, $game_id);
         $cek->execute();
         $result = $cek->get_result();
         
         if($result->num_rows > 0) {
-            // Udah ada di keranjang, biarin aja
             return true;
         }
 

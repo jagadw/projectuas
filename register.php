@@ -37,12 +37,17 @@ if(isset($_POST['register'])) {
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Register - MarketGame</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar — Seedem</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
     <link rel="stylesheet" href="public/assets/style.css">
 </head>
 <body class="bg-gray">
     <div class="auth-card">
-        <h2>Daftar Akun Baru</h2>
+        <h2>Buat Akun</h2>
+        <p class="auth-subtitle">Bergabung dengan Seedem sekarang</p>
         <?php if($msg): ?>
             <div class="alert success"><?php echo $msg; ?></div>
         <?php endif; ?>
@@ -52,19 +57,20 @@ if(isset($_POST['register'])) {
         <form method="POST" action="">
             <div class="form-group">
                 <label>Username</label>
-                <input type="text" name="username" required>
+                <input type="text" name="username" placeholder="3–20 karakter, huruf dan angka" required>
             </div>
             <div class="form-group">
                 <label>Email</label>
-                <input type="email" name="email" required>
+                <input type="email" name="email" placeholder="nama@email.com" required>
             </div>
             <div class="form-group">
                 <label>Password</label>
-                <input type="password" name="password" required>
+                <input type="password" name="password" placeholder="Minimal 8 karakter" required>
             </div>
-            <button type="submit" name="register" class="btn">Daftar</button>
+            <button type="submit" name="register" class="btn btn-full">Buat Akun</button>
         </form>
-        <p class="mt-15">Sudah punya akun? <a href="login.php">Login disini</a></p>
+        <hr class="divider">
+        <p class="text-muted" style="text-align:center">Sudah punya akun? <a href="login.php">Masuk di sini</a></p>
     </div>
 </body>
 </html>

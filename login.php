@@ -5,7 +5,7 @@ require_once 'classes/User.php';
 
 if(isset($_SESSION['user_id'])) {
     if($_SESSION['role'] == 'admin') {
-        header("Location: admin_dashboard.php");
+        header("Location: admin/admin_dashboard.php");
     } else {
         header("Location: index.php");
     }
@@ -38,7 +38,7 @@ if(isset($_POST['login']) && empty($error)) {
         $_SESSION['role'] = $data['role'];
 
         if($data['role'] == 'admin') {
-            header("Location: admin_dashboard.php");
+            header("Location: admin/admin_dashboard.php");
         } else {
             header("Location: index.php");
         }
@@ -58,27 +58,33 @@ if(isset($_POST['login']) && empty($error)) {
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Login - MarketGame</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login — Seedem</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
     <link rel="stylesheet" href="public/assets/style.css">
 </head>
 <body class="bg-gray">
     <div class="auth-card">
-        <h2>Login MarketGame</h2>
+        <h2>Masuk</h2>
+        <p class="auth-subtitle">Selamat datang kembali di Seedem</p>
         <?php if($error): ?>
             <div class="alert"><?php echo $error; ?></div>
         <?php endif; ?>
         <form method="POST" action="">
             <div class="form-group">
                 <label>Username</label>
-                <input type="text" name="username" required>
+                <input type="text" name="username" placeholder="Masukkan username" required>
             </div>
             <div class="form-group">
                 <label>Password</label>
-                <input type="password" name="password" required>
+                <input type="password" name="password" placeholder="••••••••" required>
             </div>
-            <button type="submit" name="login" class="btn">Login</button>
+            <button type="submit" name="login" class="btn btn-full">Masuk</button>
         </form>
-        <p class="mt-15">Belum punya akun? <a href="register.php">Daftar disini</a></p>
+        <hr class="divider">
+        <p class="text-muted" style="text-align:center">Belum punya akun? <a href="register.php">Daftar sekarang</a></p>
     </div>
 </body>
 </html>
