@@ -12,14 +12,24 @@ $msg = '';
 $error = '';
 if(isset($_POST['register'])) {
     $user = new User();
-    $username = $_POST['username'];
-    $email = $_POST['email'];
+    $username = trim($_POST['username']);
+    $email = trim($_POST['email']);
     $password = $_POST['password'];
 
-    if($user->register($username, $email, $password)) {
-        $msg = "Daftar akun berhasil! Ayoo login.";
+    if (strlen($username) < 3 || strlen($username) > 20) {
+        $error = "Username harus antara 3 hingga 20 karakter.";
+    } elseif (!preg_match('/^[a-zA-Z0-9]+$/', $username)) {
+        $error = "Username hanya boleh terdiri dari huruf dan angka (tanpa spasi).";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $error = "Format email tidak valid.";
+    } elseif (strlen($password) < 8) {
+        $error = "Password minimal harus 8 karakter.";
     } else {
-        $error = "Username sudah digunakan, cari nama lain!";
+        if($user->register($username, $email, $password)) {
+            $msg = "Daftar akun berhasil! Ayoo login.";
+        } else {
+            $error = "Username atau email sudah terdaftar!";
+        }
     }
 }
 ?>

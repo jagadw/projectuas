@@ -13,14 +13,26 @@ if(isset($_SESSION['user_id'])) {
 }
 
 $error = '';
-if(isset($_POST['login'])) {
+
+if (!isset($_SESSION['login_attempts'])) {
+    $_SESSION['login_attempts'] = 0;
+}
+if (isset($_SESSION['lockout_time']) && time() < $_SESSION['lockout_time']) {
+    $remaining_time = $_SESSION['lockout_time'] - time();
+    $error = "Terlalu banyak percobaan gagal. Silakan coba lagi dalam " . $remaining_time . " detik.";
+}
+
+if(isset($_POST['login']) && empty($error)) {
     $user = new User();
-    $username = $_POST['username'];
+    $username = trim($_POST['username']);
     $password = $_POST['password'];
 
     $data = $user->login($username, $password);
 
     if($data) {
+        $_SESSION['login_attempts'] = 0; 
+        unset($_SESSION['lockout_time']);
+
         $_SESSION['user_id'] = $data['id'];
         $_SESSION['username'] = $data['username'];
         $_SESSION['role'] = $data['role'];
@@ -32,7 +44,13 @@ if(isset($_POST['login'])) {
         }
         exit;
     } else {
-        $error = "Username atau password salah";
+        $_SESSION['login_attempts']++;
+        if ($_SESSION['login_attempts'] >= 5) {
+            $_SESSION['lockout_time'] = time() + 30;
+            $error = "Terlalu banyak percobaan gagal. Silakan coba lagi dalam 30 detik.";
+        } else {
+            $error = "Username atau password salah. Percobaan tersisa: " . (5 - $_SESSION['login_attempts']);
+        }
     }
 }
 ?>
