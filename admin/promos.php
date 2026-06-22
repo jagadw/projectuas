@@ -5,6 +5,22 @@ require_once __DIR__ . '/../classes/admin/AdminPromo.php';
 
 $adminPromo = new AdminPromo();
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $action = $_POST['action'] ?? '';
+
+    if ($action === 'save_promo') {
+        $adminPromo->savePromo($_POST);
+        header('Location: promos.php');
+        exit;
+    }
+
+    if ($action === 'delete_promo') {
+        $adminPromo->deletePromo((int) ($_POST['id'] ?? 0));
+        header('Location: promos.php');
+        exit;
+    }
+}
+
 $editId = (int) ($_GET['edit'] ?? 0);
 $editPromo = $editId ? $adminPromo->getPromo($editId) : null;
 $promos = $adminPromo->getPromos();
