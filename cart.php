@@ -7,6 +7,8 @@ $cart = new Cart();
 
 if(isset($_POST['remove'])) {
     $cart->remove($_POST['cart_id'], $_SESSION['user_id']);
+    header('Location: cart.php');
+    exit;
 }
 
 $myCart = $cart->getUserCart($_SESSION['user_id']);
@@ -31,10 +33,10 @@ $myCart = $cart->getUserCart($_SESSION['user_id']);
                 </tr>
             </thead>
             <tbody>
-                <?php 
-                $no = 1; 
+                <?php
+                $no = 1;
                 $total = 0;
-                foreach($myCart as $item): 
+                foreach($myCart as $item):
                     $total += $item['price'];
                 ?>
                 <tr>
@@ -56,7 +58,7 @@ $myCart = $cart->getUserCart($_SESSION['user_id']);
                 <span>Total</span>
                 Rp <?php echo number_format($total, 0, ',', '.'); ?>
             </div>
-            <button class="btn" onclick="alert('Fitur checkout sedang dikembangkan')">Checkout</button>
+            <a href="checkout.php" class="btn">Checkout</a>
         </div>
     </div>
 <?php endif; ?>
