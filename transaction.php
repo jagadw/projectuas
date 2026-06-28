@@ -44,7 +44,6 @@ require_once 'templates/header.php';
 
 <div class="pay-wrap">
 
-    <!-- Payment method block -->
     <div class="co-block">
         <div class="co-block-title">Menunggu Pembayaran</div>
         <div class="pay-method-body">
@@ -156,7 +155,6 @@ require_once 'templates/header.php';
         </div>
     </div>
 
-    <!-- Timer -->
     <div class="co-block">
         <div class="co-block-title">Batas Waktu Pembayaran</div>
         <div class="pay-timer-body">
@@ -165,7 +163,6 @@ require_once 'templates/header.php';
         </div>
     </div>
 
-    <!-- Order detail -->
     <div class="co-block">
         <div class="co-block-title">Detail Pesanan</div>
         <div class="txd-info-body">
@@ -188,7 +185,6 @@ require_once 'templates/header.php';
         </div>
     </div>
 
-    <!-- Confirm button -->
     <form method="POST">
         <input type="hidden" name="confirm_payment" value="1">
         <button type="submit" class="btn btn-full">✓ Konfirmasi Sudah Bayar</button>

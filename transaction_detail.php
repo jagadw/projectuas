@@ -58,7 +58,6 @@ require_once 'templates/header.php';
         </div>
     </div>
 
-    <!-- Game Keys -->
     <div class="co-block">
         <div class="txd-keys-title">
             <div class="txd-keys-icon">
@@ -85,7 +84,6 @@ require_once 'templates/header.php';
         <?php endforeach; ?>
     </div>
 
-    <!-- Payment Detail -->
     <div class="co-block">
         <div class="co-block-title">Payment Detail</div>
         <div class="txd-info-body">
@@ -110,7 +108,6 @@ require_once 'templates/header.php';
         </div>
     </div>
 
-    <!-- Order Summary -->
     <div class="co-block">
         <div class="co-block-title">Order Summary</div>
         <div class="txd-info-body">
