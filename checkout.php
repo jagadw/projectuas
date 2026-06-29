@@ -1,6 +1,6 @@
 <?php
-if(session_status() === PHP_SESSION_NONE) session_start();
-if(!isset($_SESSION['user_id'])) {
+if (session_status() === PHP_SESSION_NONE) session_start();
+if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
     exit;
 }
@@ -22,11 +22,7 @@ if (empty($cartItems)) {
     exit;
 }
 
-$error      = '';
-$promoData  = null;
-$promoCode  = '';
-$discount   = 0;
-
+$error    = '';
 $subtotal = array_sum(array_column($cartItems, 'price'));
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['check_promo'])) {
@@ -51,28 +47,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['check_promo'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
-    $paymentType = $_POST['payment_type'] ?? '';
-    $promoId     = (int) ($_POST['promo_id'] ?? 0) ?: null;
-    $finalTotal  = (float) ($_POST['final_total'] ?? $subtotal);
+    header('Content-Type: application/json');
 
-    if (!$paymentType) {
-        $error = 'Pilih metode pembayaran terlebih dahulu.';
+    $promoId    = (int) ($_POST['promo_id'] ?? 0) ?: null;
+    $finalTotal = (float) ($_POST['final_total'] ?? $subtotal);
+
+    $result = $transaction->createFromCart($userId, $cartItems, $finalTotal, $promoId);
+
+    if ($result['success']) {
+        $transaction->clearCart($userId);
+        echo json_encode([
+            'snap_token' => $result['snap_token'],
+            'tx_id'      => $result['tx_id'],
+        ]);
     } else {
-        $txId = $transaction->createFromCart($userId, $cartItems, $finalTotal, $promoId, $paymentType);
-        if ($txId) {
-            $transaction->clearCart($userId);
-            header("Location: transaction.php?id=$txId");
-            exit;
-        } else {
-            $error = 'Gagal memproses transaksi. Stok key mungkin habis, coba lagi.';
-        }
+        echo json_encode(['error' => $result['error']]);
     }
+    exit;
 }
 
-$pageTitle = 'Checkout';
+$pageTitle         = 'Checkout';
+$midtransClientKey = $_ENV['MIDTRANS_CLIENT_KEY'];
+$midtransScriptUrl = filter_var($_ENV['MIDTRANS_IS_PRODUCTION'] ?? 'false', FILTER_VALIDATE_BOOLEAN)
+    ? 'https://app.midtrans.com/snap/snap.js'
+    : 'https://app.sandbox.midtrans.com/snap/snap.js';
+
 require_once 'templates/header.php';
 ?>
 
+<script src="<?php echo $midtransScriptUrl; ?>"
+        data-client-key="<?php echo htmlspecialchars($midtransClientKey); ?>"></script>
 
 <h2>Checkout</h2>
 
@@ -80,10 +84,10 @@ require_once 'templates/header.php';
     <div class="error-box"><?php echo htmlspecialchars($error); ?></div>
 <?php endif; ?>
 
-<form method="POST" id="checkoutForm">
-    <input type="hidden" name="place_order" value="1">
-    <input type="hidden" name="promo_id"    id="hiddenPromoId"    value="0">
-    <input type="hidden" name="final_total" id="hiddenFinalTotal" value="<?php echo $subtotal; ?>">
+<form id="checkoutForm">
+    <input type="hidden" name="place_order"  value="1">
+    <input type="hidden" name="promo_id"     id="hiddenPromoId"    value="0">
+    <input type="hidden" name="final_total"  id="hiddenFinalTotal" value="<?php echo $subtotal; ?>">
 
     <div class="checkout-layout">
 
@@ -108,40 +112,6 @@ require_once 'templates/header.php';
                 </div>
                 <div class="promo-feedback" id="promoFeedback"></div>
             </div>
-
-            <div class="checkout-section">
-                <h3>Metode Pembayaran</h3>
-                <div class="payment-methods">
-                    <label class="payment-option">
-                        <input type="radio" name="payment_type" value="bank_transfer" required>
-                        <div>
-                            <div class="payment-option-label">Transfer Bank</div>
-                            <div class="payment-option-desc">BCA · Mandiri · BNI · BRI</div>
-                        </div>
-                    </label>
-                    <label class="payment-option">
-                        <input type="radio" name="payment_type" value="qris">
-                        <div>
-                            <div class="payment-option-label">QRIS</div>
-                            <div class="payment-option-desc">Scan QR dari semua e-wallet & m-banking</div>
-                        </div>
-                    </label>
-                    <label class="payment-option">
-                        <input type="radio" name="payment_type" value="credit_card">
-                        <div>
-                            <div class="payment-option-label">Kartu Kredit / Debit</div>
-                            <div class="payment-option-desc">Visa · Mastercard · JCB</div>
-                        </div>
-                    </label>
-                    <label class="payment-option">
-                        <input type="radio" name="payment_type" value="gopay">
-                        <div>
-                            <div class="payment-option-label">GoPay</div>
-                            <div class="payment-option-desc">Bayar lewat aplikasi Gojek</div>
-                        </div>
-                    </label>
-                </div>
-            </div>
         </div>
 
         <div>
@@ -163,8 +133,16 @@ require_once 'templates/header.php';
                     <span id="totalValue">Rp <?php echo number_format($subtotal, 0, ',', '.'); ?></span>
                 </div>
 
-                <button type="submit" class="btn btn-checkout">Bayar Sekarang</button>
-                <a href="cart.php" class="btn btn-secondary btn-checkout" style="text-align:center;display:block;margin-top:8px;">Kembali ke Keranjang</a>
+                <button type="button" class="btn btn-checkout" id="payBtn">
+                    Lanjutkan Pembayaran
+                </button>
+                <a href="cart.php" class="btn btn-secondary btn-checkout"
+                   style="text-align:center;display:block;margin-top:8px;">Kembali ke Keranjang</a>
+
+                <div id="payLoading" style="display:none;text-align:center;margin-top:12px;color:var(--muted)">
+                    Menyiapkan pembayaran...
+                </div>
+                <div id="payError" style="display:none;" class="error-box"></div>
             </div>
         </div>
 
@@ -204,11 +182,9 @@ document.getElementById('applyPromoBtn').addEventListener('click', async () => {
 
     if (data.valid) {
         feedback.className = 'promo-feedback success';
-        feedback.textContent = `✓ Kode "${data.code}" berhasil — diskon ${data.percent}% (maks. ${rupiah(data.max)})`;
-
+        feedback.textContent = `✓ Kode "${data.code}" berhasil diskon ${data.percent}% (maks. ${rupiah(data.max)})`;
         document.getElementById('hiddenPromoId').value    = data.promo_id;
         document.getElementById('hiddenFinalTotal').value = data.final_total;
-
         document.getElementById('discountRow').style.display  = 'flex';
         document.getElementById('discountLabel').textContent  = `Diskon (${data.percent}%)`;
         document.getElementById('discountValue').textContent  = '- ' + rupiah(data.discount);
@@ -216,12 +192,69 @@ document.getElementById('applyPromoBtn').addEventListener('click', async () => {
     } else {
         feedback.className = 'promo-feedback error';
         feedback.textContent = data.message;
-
         document.getElementById('hiddenPromoId').value    = 0;
         document.getElementById('hiddenFinalTotal').value = subtotal;
         document.getElementById('discountRow').style.display = 'none';
         document.getElementById('totalValue').textContent    = rupiah(subtotal);
     }
+});
+
+document.getElementById('payBtn').addEventListener('click', async () => {
+    const btn      = document.getElementById('payBtn');
+    const loading  = document.getElementById('payLoading');
+    const errBox   = document.getElementById('payError');
+
+    btn.disabled    = true;
+    btn.textContent = 'Memproses...';
+    loading.style.display = 'block';
+    errBox.style.display  = 'none';
+
+    const promoId    = document.getElementById('hiddenPromoId').value;
+    const finalTotal = document.getElementById('hiddenFinalTotal').value;
+
+    const reset = () => {
+        btn.disabled    = false;
+        btn.textContent = 'Lanjutkan Pembayaran';
+        loading.style.display = 'none';
+    };
+
+    let data;
+    try {
+        const res = await fetch('checkout.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `place_order=1&promo_id=${promoId}&final_total=${finalTotal}`,
+        });
+        data = await res.json();
+    } catch (e) {
+        reset();
+        errBox.textContent   = 'Gagal menghubungi server. Periksa koneksi internet kamu.';
+        errBox.style.display = 'block';
+        return;
+    }
+
+    if (!data.snap_token) {
+        reset();
+        errBox.textContent   = data.error || 'Gagal memproses pembayaran. Coba lagi.';
+        errBox.style.display = 'block';
+        return;
+    }
+
+    snap.pay(data.snap_token, {
+        onSuccess: function() {
+            window.location.href = 'transaction_detail.php?id=' + data.tx_id;
+        },
+        onPending: function() {
+            window.location.href = 'transaction.php?id=' + data.tx_id;
+        },
+        onError: function() {
+            window.location.href = 'transaction.php?id=' + data.tx_id;
+        },
+        onClose: function() {
+            reset();
+            window.location.href = 'transaction.php?id=' + data.tx_id;
+        }
+    });
 });
 </script>
 
