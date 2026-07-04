@@ -35,7 +35,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
             <a href="favorite.php" class="nav-icon-btn" title="Favorit">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
             </a>
-            <a href="#" class="nav-icon-btn" title="Bantuan">
+            <a href="tickets.php" class="nav-icon-btn <?php echo $currentPage == 'tickets.php' || $currentPage == 'ticket_chat.php' ? 'active' : ''; ?>" title="Bantuan">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
             </a>
             <div class="nav-divider"></div>
@@ -63,7 +63,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
         <div class="nav-divider-horizontal"></div>
         <a href="cart.php">Keranjang</a>
         <a href="favorite.php">Favorit</a>
-        <a href="#">Bantuan</a>
+        <a href="tickets.php" <?php echo $currentPage == 'tickets.php' || $currentPage == 'ticket_chat.php' ? 'class="active"' : ''; ?>>Bantuan</a>
         <div class="nav-divider-horizontal"></div>
         <a href="logout.php" style="color: var(--red);">Keluar</a>
     </div>
