@@ -6,7 +6,9 @@ require_once __DIR__ . '/../classes/admin/AdminKey.php';
 $adminKey = new AdminKey();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['game_id'], $_POST['key_codes'])) {
-    $adminKey->restockKeys((int)($_POST['game_id'] ?? 0), (string)($_POST['key_codes'] ?? ''));
+    $_SESSION['admin_notif'] = $adminKey->restockKeys((int)($_POST['game_id'] ?? 0), (string)($_POST['key_codes'] ?? ''))
+        ? ['type' => 'success', 'message' => 'Stok key berhasil ditambahkan.']
+        : ['type' => 'error', 'message' => 'Gagal menambah stok key.'];
 }
 
 $games = $adminKey->getGames();
