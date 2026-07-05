@@ -22,8 +22,8 @@ if(isset($_POST['add_fav'])) {
     $msg = "Game berhasil disimpan ke favorit!";
 }
 
-$categories = ['Action', 'RPG', 'Strategy', 'Sports', 'Racing'];
-$platforms = ['PC', 'XBOX', 'Playstation'];
+$categories = $gameObj->getAllGenres();
+$platforms = ['PC', 'XBOX', 'Playstation', 'Multiplatform'];
 
 $userCartIds = [];
 $userFavIds = [];
@@ -81,19 +81,24 @@ if(isset($_SESSION['user_id'])) {
         <div class="grid-container" id="productGrid">
             <?php foreach($games as $index => $g): 
                 if ($g['price'] == 0) continue; 
-                $randomCategory = $categories[$index % count($categories)];
+                $gameCategory = !empty($g['genre_name']) ? $g['genre_name'] : 'Lainnya';
                 $imgSrc = !empty($g['image']) ? "public/uploads/" . htmlspecialchars($g['image']) : "public/uploads/default.jpg";
                 $gamePlatform = !empty($g['platform']) ? $g['platform'] : 'PC';
             ?>
-                <div class="card" data-category="<?php echo $randomCategory; ?>" data-platform="<?php echo $gamePlatform; ?>" data-price="<?php echo $g['price']; ?>">
+                <div class="card" data-category="<?php echo $gameCategory; ?>" data-platform="<?php echo $gamePlatform; ?>" data-price="<?php echo $g['price']; ?>">
                     <a href="detail.php?id=<?php echo $g['id']; ?>" class="card-link">
                         <div class="card-img">
                             <img src="<?php echo $imgSrc; ?>" alt="<?php echo htmlspecialchars($g['title']); ?>" onerror="this.src='public/uploads/default.jpg'">
                         </div>
                         <div class="card-body">
                             <div>
-                                <span class="badge"><?php echo $randomCategory; ?></span>
-                                <span class="badge badge-platform"><?php echo htmlspecialchars($gamePlatform); ?></span>
+                                <?php 
+                                $genreArray = !empty($g['genre_name']) ? explode(', ', $g['genre_name']) : ['Lainnya'];
+                                foreach($genreArray as $gn): 
+                                ?>
+                                    <span class="badge" style="margin-bottom: 4px; display: inline-block;"><?php echo htmlspecialchars($gn); ?></span>
+                                <?php endforeach; ?>
+                                <span class="badge badge-platform" style="margin-bottom: 4px; display: inline-block;"><?php echo htmlspecialchars($gamePlatform); ?></span>
                             </div>
                             <h3><?php echo htmlspecialchars($g['title']); ?></h3>
                             <p class="desc"><?php echo htmlspecialchars($g['description']); ?></p>
@@ -151,7 +156,8 @@ if(isset($_SESSION['user_id'])) {
 
             let visibleCount = 0;
             cards.forEach(card => {
-                const catMatch = activeFilters.category === 'all' || card.getAttribute('data-category') === activeFilters.category;
+                const cardCategories = card.getAttribute('data-category').split(', ');
+                const catMatch = activeFilters.category === 'all' || cardCategories.includes(activeFilters.category);
                 const platMatch = activeFilters.platform === 'all' || card.getAttribute('data-platform') === activeFilters.platform;
                 
                 const price = parseInt(card.getAttribute('data-price'));
