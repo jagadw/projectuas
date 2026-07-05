@@ -3,7 +3,7 @@ if(session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-if(!isset($_SESSION['user_id']) && ($_SESSION['role'] ?? '') != 'admin') {
+if(!isset($_SESSION['user_id']) || ($_SESSION['role'] ?? '') != 'admin') {
     header("Location: ../login.php");
     exit;
 }
@@ -47,7 +47,7 @@ unset($_SESSION['admin_notif']);
                 <a href="keys.php" <?php echo $currentPage === 'keys.php' ? 'class="active"' : ''; ?>>Restock Key</a>
                 <a href="promos.php" <?php echo $currentPage === 'promos.php' ? 'class="active"' : ''; ?>>Promo Code</a>
                 <a href="transactions.php" <?php echo $currentPage === 'transactions.php' ? 'class="active"' : ''; ?>>Transaksi</a>
-                <a href="tickets.php" <?php echo $currentPage === 'tickets.php' ? 'class="active"' : ''; ?>>Helpdesk</a>
+                <a href="tickets.php" <?php echo $currentPage === 'tickets.php' ? 'class="active"' : ''; ?>>Ticket</a>
                 <a href="reviews.php" <?php echo $currentPage === 'reviews.php' ? 'class="active"' : ''; ?>>Ulasan</a>
             </nav>
         </div>
@@ -65,7 +65,7 @@ unset($_SESSION['admin_notif']);
         <a href="keys.php" <?php echo $currentPage === 'keys.php' ? 'class="active"' : ''; ?>>Restock Key</a>
         <a href="promos.php" <?php echo $currentPage === 'promos.php' ? 'class="active"' : ''; ?>>Promo Code</a>
         <a href="transactions.php" <?php echo $currentPage === 'transactions.php' ? 'class="active"' : ''; ?>>Transaksi</a>
-        <a href="tickets.php" <?php echo $currentPage === 'tickets.php' ? 'class="active"' : ''; ?>>Helpdesk</a>
+        <a href="tickets.php" <?php echo $currentPage === 'tickets.php' ? 'class="active"' : ''; ?>>Ticket</a>
         <a href="reviews.php" <?php echo $currentPage === 'reviews.php' ? 'class="active"' : ''; ?>>Ulasan</a>
     </aside>
     <main class="admin-main">

@@ -31,3 +31,17 @@ if (session_status() === PHP_SESSION_NONE) {
 \Midtrans\Config::$isProduction = filter_var($_ENV['MIDTRANS_IS_PRODUCTION'] ?? 'false', FILTER_VALIDATE_BOOLEAN);
 \Midtrans\Config::$isSanitized  = true;
 \Midtrans\Config::$is3ds        = true;
+
+if (!function_exists('render_message')) {
+    function render_message($message) {
+        // Ganti **text** dengan <b>$1</b>
+        $message = preg_replace('/\*\*(.*?)\*\*/', '<b>$1</b>', $message);
+        // Ganti *text* dengan <i>$1</i>
+        $message = preg_replace('/\*(.*?)\*/', '<i>$1</i>', $message);
+        // Ganti baris baru \n menjadi <br>
+        $message = nl2br((string)$message);
+        // Sanitasi input dengan mengijinkan tag HTML dasar
+        return strip_tags($message, '<b><i><u><strong><em><a><br>');
+    }
+}
+
