@@ -4,8 +4,60 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0f523db843ec0288de1511bd97f1b26d",
+    "content-hash": "83fb90c0a0986ff29e9dc7f5d9faa3bc",
     "packages": [
+        {
+            "name": "aliziodev/midtrans-php",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/aliziodev/midtrans-php.git",
+                "reference": "6d14107e70cd34c956cff2edfcf763b6325bde01"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/aliziodev/midtrans-php/zipball/6d14107e70cd34c956cff2edfcf763b6325bde01",
+                "reference": "6d14107e70cd34c956cff2edfcf763b6325bde01",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "php": "^8.2"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^1.12",
+                "phpunit/phpunit": "^11.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Aliziodev\\MidtransPhp\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Aliziodev",
+                    "email": "support@aliziodev.com"
+                }
+            ],
+            "description": "Unofficial PHP SDK for Midtrans API (Snap, Core API, Subscriptions, and webhook utilities).",
+            "keywords": [
+                "midtrans",
+                "payments",
+                "php-sdk",
+                "unofficial"
+            ],
+            "support": {
+                "issues": "https://github.com/aliziodev/midtrans-php/issues",
+                "source": "https://github.com/aliziodev/midtrans-php/tree/v1.0.1"
+            },
+            "time": "2026-04-13T02:08:17+00:00"
+        },
         {
             "name": "graham-campbell/result-type",
             "version": "v1.1.4",
@@ -67,6 +119,67 @@
                 }
             ],
             "time": "2025-12-27T19:43:20+00:00"
+        },
+        {
+            "name": "midtrans/midtrans-php",
+            "version": "2.6.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Midtrans/midtrans-php.git",
+                "reference": "8ed7fc58ff1ababe675da17acf8233f4028eb3be"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Midtrans/midtrans-php/zipball/8ed7fc58ff1ababe675da17acf8233f4028eb3be",
+                "reference": "8ed7fc58ff1ababe675da17acf8233f4028eb3be",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "ext-openssl": "*",
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "5.7.*",
+                "psy/psysh": "0.4.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SnapBi\\": "SnapBi/",
+                    "Midtrans\\": "Midtrans/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Andri Setiawan",
+                    "email": "andri.setiawan@veritrans.co.id"
+                },
+                {
+                    "name": "Alvin Litani",
+                    "email": "alvin.litani@veritrans.co.id"
+                },
+                {
+                    "name": "Ismail Faruqi",
+                    "email": "ismail.faruqi@veritrans.co.id"
+                },
+                {
+                    "name": "Muhammad Fauzi Masykur",
+                    "email": "muhammad.masykur@gojek.com"
+                }
+            ],
+            "description": "PHP Wrapper for Midtrans Payment API.",
+            "homepage": "https://midtrans.com",
+            "support": {
+                "issues": "https://github.com/Midtrans/midtrans-php/issues",
+                "source": "https://github.com/Midtrans/midtrans-php/tree/v2.6.2"
+            },
+            "time": "2025-03-18T06:30:17+00:00"
         },
         {
             "name": "phpoption/phpoption",
