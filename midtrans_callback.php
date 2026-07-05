@@ -31,6 +31,7 @@ if ($incomingSignature !== $expectedSignature) {
 
 $transactionStatus = $data['transaction_status'] ?? '';
 $fraudStatus       = $data['fraud_status']       ?? 'accept';
+$paymentType       = $data['payment_type']       ?? '';
 
 $conn = new mysqli(
     $_ENV['DB_HOST'],
@@ -73,8 +74,8 @@ if ($transactionStatus === 'capture') {
     $release->execute();
 }
 
-$upd = $conn->prepare("UPDATE transactions SET payment_status = ? WHERE id = ?");
-$upd->bind_param("si", $newStatus, $txId);
+$upd = $conn->prepare("UPDATE transactions SET payment_status = ?, payment_type = COALESCE(NULLIF(?, ''), payment_type) WHERE id = ?");
+$upd->bind_param("ssi", $newStatus, $paymentType, $txId);
 $upd->execute();
 
 $conn->close();
