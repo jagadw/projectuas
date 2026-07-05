@@ -5,12 +5,18 @@ require_once __DIR__ . '/../classes/admin/AdminReview.php';
 
 $adminReview = new AdminReview();
 
-function e($value)
-{
-    return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
-}
-
 $reviews = $adminReview->getReviews();
+
+// if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
+//     $reviewId = (int)($_POST['id'] ?? 0);
+//     if ($adminReview->deleteReview($reviewId)) {
+//         $_SESSION['admin_notif'] = 'Ulasan berhasil dihapus.';
+//     } else {
+//         $_SESSION['admin_notif'] = 'Gagal menghapus ulasan.';
+//     }
+//     header("Location: reviews.php");
+//     exit;
+// }
 
 $pageTitle = 'Monitor Ulasan';
 $pageInfo = count($reviews) . ' ulasan';
@@ -27,7 +33,7 @@ require_once __DIR__ . '/../templates/admin/admin_header.php';
                     <th>Rating</th>
                     <th>Komentar</th>
                     <th>Tanggal</th>
-                    <th>Aksi</th>
+                    <!-- <th>Aksi</th> -->
                 </tr>
             </thead>
             <tbody>
@@ -38,13 +44,13 @@ require_once __DIR__ . '/../templates/admin/admin_header.php';
                         <td><?php echo e($review['rating']); ?>/5</td>
                         <td><?php echo e($review['comment']); ?></td>
                         <td><?php echo e($review['created_at']); ?></td>
-                        <td>
+                        <!-- <td>
                             <form method="POST" onsubmit="return confirm('Hapus ulasan ini?')">
 
                                 <input type="hidden" name="id" value="<?php echo e($review['id']); ?>">
                                 <button class="btn btn-danger btn-sm" type="submit">Hapus</button>
                             </form>
-                        </td>
+                        </td> -->
                     </tr>
                 <?php endforeach; ?>
                 <?php if (!$reviews): ?><tr>

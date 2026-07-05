@@ -7,7 +7,7 @@ class AdminDashboard extends Admin
             'games' => $this->countData('games'),
             'available_keys' => $this->countData('game_keys', "status = 'available'"),
             'pending' => $this->countData('transactions', "payment_status = 'pending'"),
-            'open_tickets' => $this->countData('tickets', "status = 'open'"),
+            'open_tickets' => $this->countData('tickets', "status = 'pending'"),
         ];
     }
 
