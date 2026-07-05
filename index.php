@@ -72,13 +72,13 @@ $platforms = ['PC', 'XBOX', 'Playstation'];
             <?php foreach($games as $index => $g): 
                 if ($g['price'] == 0) continue; 
                 $randomCategory = $categories[$index % count($categories)];
-                $imgSrc = !empty($g['image']) ? "public/uploads/" . htmlspecialchars($g['image']) : "https://picsum.photos/seed/" . ($g['id'] + 50) . "/400/250";
+                $imgSrc = !empty($g['image']) ? "public/uploads/" . htmlspecialchars($g['image']) : "public/uploads/default.jpg";
                 $gamePlatform = !empty($g['platform']) ? $g['platform'] : 'PC';
             ?>
                 <div class="card" data-category="<?php echo $randomCategory; ?>" data-platform="<?php echo $gamePlatform; ?>" data-price="<?php echo $g['price']; ?>">
                     <a href="detail.php?id=<?php echo $g['id']; ?>" class="card-link">
                         <div class="card-img">
-                            <img src="<?php echo $imgSrc; ?>" alt="<?php echo htmlspecialchars($g['title']); ?>" onerror="this.src='https://picsum.photos/seed/<?php echo ($g['id'] + 50); ?>/400/250'">
+                            <img src="<?php echo $imgSrc; ?>" alt="<?php echo htmlspecialchars($g['title']); ?>" onerror="this.src='public/uploads/default.jpg'">
                         </div>
                         <div class="card-body">
                             <div>

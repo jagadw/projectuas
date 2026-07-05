@@ -122,7 +122,7 @@ class AdminGame extends Admin
 
     private function uploadImage($file, $oldImage)
     {
-        $defaultImage = 'palworld.jpg';
+        $defaultImage = 'default.jpg';
 
         if (!isset($file['image']) || $file['image']['error'] !== UPLOAD_ERR_OK) {
             return $oldImage !== '' ? $oldImage : $defaultImage;

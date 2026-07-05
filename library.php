@@ -52,7 +52,7 @@ require_once 'templates/header.php';
                     <?php
                     $imgSrc = !empty($key['image'])
                         ? 'public/uploads/' . htmlspecialchars($key['image'])
-                        : 'https://picsum.photos/seed/' . ($key['transaction_id'] + 50) . '/400/250';
+                        : 'public/uploads/default.jpg';
                     ?>
                     <img src="<?php echo $imgSrc; ?>" alt="<?php echo htmlspecialchars($key['title']); ?>">
                 </div>
