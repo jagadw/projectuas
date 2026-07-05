@@ -72,7 +72,7 @@ $platforms = ['PC', 'XBOX', 'Playstation'];
             <?php foreach($games as $index => $g): 
                 if ($g['price'] == 0) continue; 
                 $randomCategory = $categories[$index % count($categories)];
-                $imgSrc = !empty($g['image']) ? "public/assets/" . htmlspecialchars($g['image']) : "https://picsum.photos/seed/" . ($g['id'] + 50) . "/400/250";
+                $imgSrc = !empty($g['image']) ? "public/uploads/" . htmlspecialchars($g['image']) : "https://picsum.photos/seed/" . ($g['id'] + 50) . "/400/250";
                 $gamePlatform = !empty($g['platform']) ? $g['platform'] : 'PC';
             ?>
                 <div class="card" data-category="<?php echo $randomCategory; ?>" data-platform="<?php echo $gamePlatform; ?>" data-price="<?php echo $g['price']; ?>">

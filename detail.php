@@ -40,7 +40,7 @@ if(isset($_POST['add_fav'])) {
     $msg = "Game berhasil disimpan ke favorit!";
 }
 
-$imgSrc = !empty($game['image']) ? "public/assets/" . htmlspecialchars($game['image']) : "https://picsum.photos/seed/" . ($game['id'] + 50) . "/600/400";
+$imgSrc = !empty($game['image']) ? "public/uploads/" . htmlspecialchars($game['image']) : "https://picsum.photos/seed/" . ($game['id'] + 50) . "/600/400";
 $categories = ['Action', 'RPG', 'Strategy', 'Sports', 'Racing'];
 $gameCategory = $categories[($game['id'] - 1) % count($categories)];
 ?>
