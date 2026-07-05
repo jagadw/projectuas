@@ -26,6 +26,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
             <nav class="nav-links">
                 <a href="index.php" <?php echo $currentPage == 'index.php' ? 'class="active"' : ''; ?>>Home</a>
                 <a href="library.php" <?php echo $currentPage == 'library.php' ? 'class="active"' : ''; ?>>Library Key</a>
+                <a href="history.php" <?php echo $currentPage == 'history.php' ? 'class="active"' : ''; ?>>History</a>
             </nav>
         </div>
         <div class="topbar-right">
@@ -60,6 +61,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
     <div class="mobile-nav-links">
         <a href="index.php" <?php echo $currentPage == 'index.php' ? 'class="active"' : ''; ?>>Home</a>
         <a href="library.php" <?php echo $currentPage == 'library.php' ? 'class="active"' : ''; ?>>Library Key</a>
+        <a href="history.php" <?php echo $currentPage == 'history.php' ? 'class="active"' : ''; ?>>History</a>
         <div class="nav-divider-horizontal"></div>
         <a href="cart.php">Keranjang</a>
         <a href="favorite.php">Favorit</a>

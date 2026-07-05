@@ -1990,3 +1990,324 @@ code {
         grid-template-columns: 1fr;
     }
 }
+
+.txd-feedback-body {
+    padding: 16px;
+}
+
+.fb-stars-display {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 10px;
+}
+
+.fb-star {
+    color: var(--text-tertiary);
+}
+
+.fb-star-filled {
+    color: #f59e0b;
+}
+
+.fb-comment {
+    font-size: 14px;
+    color: var(--text);
+    margin-bottom: 6px;
+    line-height: 1.6;
+}
+
+.fb-submitted-date {
+    font-size: 12px;
+    color: var(--text-tertiary);
+    margin-bottom: 12px;
+}
+
+.fb-already-notice {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.fb-form-group {
+    margin-bottom: 16px;
+}
+
+.fb-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+}
+
+.fb-star-input {
+    display: flex;
+    gap: 6px;
+    cursor: pointer;
+}
+
+.fb-star-pick {
+    color: var(--text-tertiary);
+    cursor: pointer;
+    transition: color 0.1s;
+}
+
+.fb-star-pick.fb-star-filled {
+    color: #f59e0b;
+}
+
+.fb-textarea {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 13px;
+    color: var(--text);
+    font-family: inherit;
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.15s;
+    box-sizing: border-box;
+}
+
+.fb-textarea:focus {
+    border-color: var(--accent);
+}
+
+.lib-item-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.lib-item-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.lib-feedback-status {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.lib-fb-label {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.lib-fb-stars {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.lib-star {
+    color: var(--text-tertiary);
+}
+
+.lib-star-on {
+    color: #f59e0b;
+}
+
+.lib-fb-done {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--green);
+    margin-left: 6px;
+}
+
+.lib-fb-not {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-tertiary);
+    margin-left: 6px;
+}
+
+.txd-main-card {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 0;
+    margin-bottom: 14px;
+}
+
+.txd-game-side {
+    border-right: 1px solid var(--border);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.txd-game-img {
+    width: 100%;
+    height: 140px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+}
+
+.txd-game-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.txd-game-info {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.txd-game-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.txd-lib-key-section {
+    margin-top: auto;
+}
+
+.txd-lib-key-label {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-bottom: 6px;
+}
+
+.txd-lib-key-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.txd-lib-key-code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 13px;
+    font-weight: 600;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 6px 10px;
+    color: var(--text);
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    user-select: all;
+}
+
+.txd-info-side {
+    padding: 20px;
+}
+
+.txd-info-side-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+}
+
+.txd-info-table {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.fb-section-hint {
+    font-size: 12px;
+    color: var(--text-tertiary);
+    margin-bottom: 12px;
+}
+
+.fb-form-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 14px;
+}
+
+@media (max-width: 700px) {
+    .txd-main-card {
+        grid-template-columns: 1fr;
+    }
+
+    .txd-game-side {
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+    }
+}
+
+.hist-order-cell {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.hist-thumb {
+    width: 48px;
+    height: 48px;
+    border-radius: 6px;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+}
+
+.hist-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.hist-order-id {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+    white-space: nowrap;
+}
+
+.hist-game-name {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-top: 2px;
+}
+
+.hist-platform {
+    font-size: 11px;
+    color: var(--text-tertiary);
+}
+
+.hist-time {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    margin-top: 2px;
+}
+
+.hist-payment {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text);
+}

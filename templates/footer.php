@@ -10,7 +10,8 @@
             <h5>Navigasi</h5>
             <ul>
                 <li><a href="index.php">Home</a></li>
-                <li><a href="#">Library Key</a></li>
+                <li><a href="library.php">Library Key</a></li>
+                <li><a href="history.php">History</a></li>
                 <li><a href="#">Bantuan</a></li>
             </ul>
         </div>
@@ -19,7 +20,7 @@
             <ul>
                 <li><a href="cart.php">Keranjang</a></li>
                 <li><a href="favorite.php">Favorit</a></li>
-                <li><a href="#">Feedback</a></li>
+                <li><a href="history.php">Feedback</a></li>
                 <li><a href="logout.php">Keluar</a></li>
             </ul>
         </div>

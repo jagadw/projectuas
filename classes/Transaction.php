@@ -75,7 +75,7 @@ class Transaction extends Database {
             ];
         }
 
-        $baseUrl = (isset($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'];
+        $baseUrl = rtrim($_ENV['APP_URL'] ?? ((isset($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST']), '/');
         $params  = [
             'transaction_details' => [
                 'order_id'     => $orderId,
@@ -201,7 +201,7 @@ class Transaction extends Database {
 
     public function getDetails(int $txId): array {
         $stmt = $this->conn->prepare(
-            "SELECT td.price, gk.key_code, g.title, g.image, g.platform
+            "SELECT td.price, gk.key_code, g.title, g.image, g.platform, g.id as game_id
              FROM transaction_details td
              JOIN game_keys gk ON td.game_key_id = gk.id
              JOIN games g ON gk.game_id = g.id
@@ -212,11 +212,33 @@ class Transaction extends Database {
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function getSnapToken(int $txId): ?string {
-        $stmt = $this->conn->prepare("SELECT snap_token FROM transactions WHERE id = ? LIMIT 1");
-        $stmt->bind_param("i", $txId);
+    public function updateStatus(int $txId, string $status): void {
+        $stmt = $this->conn->prepare("UPDATE transactions SET payment_status = ? WHERE id = ?");
+        $stmt->bind_param("si", $status, $txId);
         $stmt->execute();
-        $row = $stmt->get_result()->fetch_assoc();
-        return $row['snap_token'] ?? null;
+    }
+
+    public function getUserTransactions(int $userId): array {
+        $stmt = $this->conn->prepare(
+            "SELECT t.*, pc.code AS promo_code,
+                    COUNT(td.id) as item_count,
+                    MIN(g.title) as first_game,
+                    MIN(g.image) as first_image,
+                    MIN(g.id) as first_game_id,
+                    MIN(g.platform) as first_platform,
+                    t.payment_type,
+                    t.midtrans_transaction_id
+             FROM transactions t
+             LEFT JOIN promo_codes pc ON t.promo_id = pc.id
+             LEFT JOIN transaction_details td ON t.id = td.transaction_id
+             LEFT JOIN game_keys gk ON td.game_key_id = gk.id
+             LEFT JOIN games g ON gk.game_id = g.id
+             WHERE t.user_id = ?
+             GROUP BY t.id
+             ORDER BY t.created_at DESC"
+        );
+        $stmt->bind_param("i", $userId);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 }

@@ -7,8 +7,10 @@ if(!isset($_SESSION['user_id'])) {
 
 require_once 'config/config.php';
 require_once 'classes/Transaction.php';
+require_once 'classes/Feedback.php';
 
 $transaction = new Transaction();
+$feedback    = new Feedback();
 $userId      = $_SESSION['user_id'];
 $txId        = (int)($_GET['id'] ?? 0);
 
@@ -25,9 +27,46 @@ if(!$tx) {
     exit;
 }
 
+if($tx['payment_status'] === 'pending' && !empty($tx['midtrans_transaction_id'])) {
+    try {
+        $status         = \Midtrans\Transaction::status($tx['midtrans_transaction_id']);
+        $midtransStatus = $status->transaction_status ?? '';
+        $fraudStatus    = $status->fraud_status ?? 'accept';
+        if($midtransStatus === 'settlement' || ($midtransStatus === 'capture' && $fraudStatus === 'accept')) {
+            $transaction->updateStatus($txId, 'settlement');
+            $tx = $transaction->getTransaction($txId, $userId);
+        } elseif(in_array($midtransStatus, ['cancel', 'deny', 'expire'])) {
+            $transaction->updateStatus($txId, $midtransStatus);
+            $tx = $transaction->getTransaction($txId, $userId);
+        }
+    } catch(\Exception $e) {}
+}
+
 if($tx['payment_status'] === 'pending') {
     header('Location: transaction.php?id=' . $txId);
     exit;
+}
+
+$feedbackError = '';
+$feedbackMsg   = '';
+if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_feedback'])) {
+    $gameId  = (int)($_POST['game_id'] ?? 0);
+    $rating  = (int)($_POST['rating'] ?? 0);
+    $comment = trim($_POST['comment'] ?? '');
+
+    if($rating < 1 || $rating > 5) {
+        $feedbackError = 'Pilih rating antara 1–5.';
+    } elseif(empty($comment)) {
+        $feedbackError = 'Komentar tidak boleh kosong.';
+    } elseif(!$gameId) {
+        $feedbackError = 'Game tidak valid.';
+    } else {
+        if($feedback->submit($userId, $gameId, $rating, $comment)) {
+            $feedbackMsg = 'Feedback berhasil dikirim!';
+        } else {
+            $feedbackError = 'Kamu sudah pernah mengirim feedback untuk game ini.';
+        }
+    }
 }
 
 $paymentLabel = [
@@ -134,6 +173,66 @@ require_once 'templates/header.php';
         </div>
     </div>
 
+    <?php foreach($details as $item):
+        $gameId     = $item['game_id'] ?? null;
+        if(!$gameId) continue;
+        $existingFb = $feedback->getByTransactionAndGame($userId, $txId, $gameId);
+    ?>
+    <div class="co-block">
+        <div class="co-block-title">Feedback — <?php echo htmlspecialchars($item['title']); ?></div>
+        <div class="txd-feedback-body">
+            <?php if($existingFb): ?>
+                <div class="fb-stars-display">
+                    <?php for($i = 1; $i <= 5; $i++): ?>
+                        <svg class="fb-star <?php echo $i <= $existingFb['rating'] ? 'fb-star-filled' : ''; ?>"
+                             xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
+                             fill="<?php echo $i <= $existingFb['rating'] ? 'currentColor' : 'none'; ?>"
+                             stroke="currentColor" stroke-width="2">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                        </svg>
+                    <?php endfor; ?>
+                </div>
+                <?php if($existingFb['comment']): ?>
+                    <p class="fb-comment"><?php echo htmlspecialchars($existingFb['comment']); ?></p>
+                <?php endif; ?>
+                <p class="fb-submitted-date">Submitted on: <?php echo date('d M Y H:i', strtotime($existingFb['created_at'])); ?></p>
+                <div class="fb-already-notice">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                    Kamu sudah mengirim feedback untuk game ini.
+                </div>
+            <?php else: ?>
+                <?php if($feedbackMsg && isset($_POST['game_id']) && (int)$_POST['game_id'] === $gameId): ?>
+                    <div class="alert success"><?php echo htmlspecialchars($feedbackMsg); ?></div>
+                <?php endif; ?>
+                <?php if($feedbackError && isset($_POST['game_id']) && (int)$_POST['game_id'] === $gameId): ?>
+                    <div class="alert"><?php echo htmlspecialchars($feedbackError); ?></div>
+                <?php endif; ?>
+                <form method="POST">
+                    <input type="hidden" name="game_id" value="<?php echo $gameId; ?>">
+                    <div class="fb-form-group">
+                        <label class="fb-label">Rating</label>
+                        <div class="fb-star-input" data-game="<?php echo $gameId; ?>">
+                            <?php for($i = 1; $i <= 5; $i++): ?>
+                            <svg class="fb-star-pick" data-val="<?php echo $i; ?>"
+                                 xmlns="http://www.w3.org/2000/svg" width="28" height="28"
+                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                            </svg>
+                            <?php endfor; ?>
+                        </div>
+                        <input type="hidden" name="rating" class="rating-val" value="0">
+                    </div>
+                    <div class="fb-form-group">
+                        <label class="fb-label">Comment</label>
+                        <textarea name="comment" class="fb-textarea" placeholder="Bagikan pengalamanmu tentang game ini..." rows="4"></textarea>
+                    </div>
+                    <button type="submit" name="submit_feedback" class="btn">Submit Feedback</button>
+                </form>
+            <?php endif; ?>
+        </div>
+    </div>
+    <?php endforeach; ?>
+
     <div class="txd-actions">
         <a href="library.php" class="btn btn-secondary">Library Key</a>
         <a href="index.php" class="btn">Beli Game Lagi</a>
@@ -146,6 +245,27 @@ function copyKey(btn, key) {
     navigator.clipboard.writeText(key).then(() => {
         btn.textContent = 'Disalin!';
         setTimeout(() => btn.textContent = 'Salin', 2000);
+    });
+}
+
+document.querySelectorAll('.fb-star-input').forEach(container => {
+    const stars      = container.querySelectorAll('.fb-star-pick');
+    const ratingInput = container.closest('form').querySelector('.rating-val');
+    stars.forEach(star => {
+        star.addEventListener('mouseover', () => highlight(stars, +star.dataset.val));
+        star.addEventListener('mouseout',  () => highlight(stars, +ratingInput.value));
+        star.addEventListener('click', () => {
+            ratingInput.value = star.dataset.val;
+            highlight(stars, +star.dataset.val);
+        });
+    });
+});
+
+function highlight(stars, val) {
+    stars.forEach(s => {
+        const on = +s.dataset.val <= val;
+        s.setAttribute('fill', on ? 'currentColor' : 'none');
+        s.classList.toggle('fb-star-filled', on);
     });
 }
 </script>
