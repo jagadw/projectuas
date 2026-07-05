@@ -139,6 +139,7 @@ class AdminGame extends Admin
             'image/jpeg' => 'jpg',
             'image/png' => 'png',
             'image/webp' => 'webp',
+            'image/avif' => 'avif',
         ];
 
         $mime = '';
