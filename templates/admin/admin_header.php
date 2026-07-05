@@ -3,21 +3,24 @@ if(session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-if(!isset($_SESSION['user_id']) || ($_SESSION['role'] ?? '') != 'admin') {
-    header("Location: ../login.php");
+if(!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+?>
+<script>
+    alert("Anda harus login sebagai admin untuk mengakses halaman ini.");
+    window.location.href = "../login.php";
+</script>
+<?php
     exit;
 }
 
-if(!function_exists('e')) {
-    function e($value) {
-        return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
-    }
+function e($value)
+{
+    return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
 }
 
-if(!function_exists('rupiah')) {
-    function rupiah($value) {
-        return 'Rp ' . number_format((float) $value, 0, ',', '.');
-    }
+function rupiah($value)
+{
+    return 'Rp ' . number_format((float)$value, 0, ',', '.');
 }
 
 $currentPage = basename($_SERVER['PHP_SELF']);
@@ -47,7 +50,7 @@ unset($_SESSION['admin_notif']);
                 <a href="keys.php" <?php echo $currentPage === 'keys.php' ? 'class="active"' : ''; ?>>Restock Key</a>
                 <a href="promos.php" <?php echo $currentPage === 'promos.php' ? 'class="active"' : ''; ?>>Promo Code</a>
                 <a href="transactions.php" <?php echo $currentPage === 'transactions.php' ? 'class="active"' : ''; ?>>Transaksi</a>
-                <a href="tickets.php" <?php echo $currentPage === 'tickets.php' ? 'class="active"' : ''; ?>>Ticket</a>
+                <a href="tickets.php" <?php echo $currentPage === 'tickets.php' ? 'class="active"' : ''; ?>>Helpdesk</a>
                 <a href="reviews.php" <?php echo $currentPage === 'reviews.php' ? 'class="active"' : ''; ?>>Ulasan</a>
             </nav>
         </div>
@@ -65,7 +68,7 @@ unset($_SESSION['admin_notif']);
         <a href="keys.php" <?php echo $currentPage === 'keys.php' ? 'class="active"' : ''; ?>>Restock Key</a>
         <a href="promos.php" <?php echo $currentPage === 'promos.php' ? 'class="active"' : ''; ?>>Promo Code</a>
         <a href="transactions.php" <?php echo $currentPage === 'transactions.php' ? 'class="active"' : ''; ?>>Transaksi</a>
-        <a href="tickets.php" <?php echo $currentPage === 'tickets.php' ? 'class="active"' : ''; ?>>Ticket</a>
+        <a href="tickets.php" <?php echo $currentPage === 'tickets.php' ? 'class="active"' : ''; ?>>Helpdesk</a>
         <a href="reviews.php" <?php echo $currentPage === 'reviews.php' ? 'class="active"' : ''; ?>>Ulasan</a>
     </aside>
     <main class="admin-main">

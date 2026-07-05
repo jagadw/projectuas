@@ -3,17 +3,6 @@ require_once __DIR__ . '/../config/config.php';
 require_once __DIR__ . '/../classes/admin/Admin.php';
 require_once __DIR__ . '/../classes/admin/AdminKey.php';
 
-function e($value)
-{
-    return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
-}
-
-function rupiah($value)
-{
-    return 'Rp ' . number_format((float)$value, 0, ',', '.');
-}
-
-
 $adminKey = new AdminKey();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['game_id'], $_POST['key_codes'])) {
