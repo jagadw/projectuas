@@ -24,6 +24,16 @@ if(isset($_POST['add_fav'])) {
 
 $categories = ['Action', 'RPG', 'Strategy', 'Sports', 'Racing'];
 $platforms = ['PC', 'XBOX', 'Playstation'];
+
+$userCartIds = [];
+$userFavIds = [];
+if(isset($_SESSION['user_id'])) {
+    $cartTmp = new Cart();
+    foreach($cartTmp->getUserCart($_SESSION['user_id']) as $c) $userCartIds[] = $c['id'];
+    
+    $favTmp = new Favorite();
+    foreach($favTmp->getUserFavorites($_SESSION['user_id']) as $f) $userFavIds[] = $f['id'];
+}
 ?>
 
 <div class="home-wrapper">
@@ -95,11 +105,26 @@ $platforms = ['PC', 'XBOX', 'Playstation'];
                     <div class="card-body" style="padding-top:0">
                         <div class="card-actions">
                             <form method="POST" style="flex:1;display:flex;gap:6px">
+                                <?php
+                                $inCart = in_array($g['id'], $userCartIds);
+                                $inFav = in_array($g['id'], $userFavIds);
+                                ?>
                                 <input type="hidden" name="game_id" value="<?php echo $g['id']; ?>">
-                                <button type="submit" name="add_cart" class="btn btn-outline-cyan">+ Keranjang</button>
-                                <button type="submit" name="add_fav" class="btn btn-love">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-                                </button>
+                                <?php if($inCart): ?>
+                                    <button type="button" class="btn btn-outline-cyan" style="background:var(--accent);color:white;opacity:0.8;cursor:default;" title="Sudah di Keranjang">Di Keranjang</button>
+                                <?php else: ?>
+                                    <button type="submit" name="add_cart" class="btn btn-outline-cyan">+ Keranjang</button>
+                                <?php endif; ?>
+
+                                <?php if($inFav): ?>
+                                    <button type="button" class="btn btn-love" style="color:var(--pink);border-color:var(--pink);background:rgba(233,61,130,0.08);cursor:default;" title="Sudah di Favorit">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                                    </button>
+                                <?php else: ?>
+                                    <button type="submit" name="add_fav" class="btn btn-love">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                                    </button>
+                                <?php endif; ?>
                             </form>
                         </div>
                     </div>
