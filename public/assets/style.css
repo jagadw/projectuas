@@ -169,7 +169,7 @@ a:hover {
     left: 0;
     width: 100%;
     height: 100vh;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0, 0, 0, 0.5);
     z-index: 999;
     opacity: 0;
     pointer-events: none;
@@ -817,7 +817,9 @@ h2 {
     margin: 20px 0;
 }
 
-.mt-15 { margin-top: 15px; }
+.mt-15 {
+    margin-top: 15px;
+}
 
 .text-muted {
     color: var(--text-secondary);
@@ -1207,12 +1209,12 @@ code {
         align-items: flex-start;
         gap: 8px;
     }
-    
+
     .sidebar-section h4 {
         margin: 0;
         white-space: nowrap;
     }
-    
+
     .filter-tags {
         flex-direction: row;
         flex-wrap: wrap;
@@ -1220,7 +1222,7 @@ code {
         padding-bottom: 0;
         gap: 6px;
     }
-    
+
     .price-filter {
         flex-direction: row;
         flex-wrap: wrap;
@@ -1233,7 +1235,7 @@ code {
         border: 1px solid var(--border);
         border-radius: 20px;
     }
-    
+
     .filter-btn.active {
         background: var(--text);
         color: var(--bg);
@@ -2310,4 +2312,196 @@ code {
     font-size: 12px;
     font-weight: 500;
     color: var(--text);
+}
+
+.no-feedback {
+    color: var(--text-tertiary);
+    font-size: 14px;
+}
+
+.fb-star-filled {
+    color: #f59e0b;
+}
+
+
+.feedback-section-v2 {
+    margin-top: 40px;
+}
+
+.feedback-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.feedback-container {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+}
+
+.feedback-stats-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px;
+    width: 380px;
+    display: flex;
+    gap: 32px;
+    flex-shrink: 0;
+}
+
+.stats-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.avg-rating-big {
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 12px;
+}
+
+.avg-stars {
+    display: flex;
+    gap: 2px;
+    color: #f59e0b;
+}
+
+.review-count {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-top: 12px;
+}
+
+.stats-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    justify-content: center;
+}
+
+.rating-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.star-label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 13px;
+    width: 28px;
+    color: var(--text-secondary);
+}
+
+.bar-container {
+    flex: 1;
+    height: 8px;
+    background: var(--surface3);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.bar-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 4px;
+}
+
+.count-label {
+    font-size: 13px;
+    width: 20px;
+    text-align: right;
+    color: var(--text-secondary);
+}
+
+.feedback-list-box {
+    flex: 1;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+}
+
+.feedback-list-scroll {
+    display: flex;
+    flex-direction: column;
+}
+
+.feedback-item-v2 {
+    display: flex;
+    gap: 16px;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+}
+
+.feedback-item-v2:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 16px;
+}
+
+.fb-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: var(--surface2);
+    flex-shrink: 0;
+}
+
+.fb-content {
+    flex: 1;
+}
+
+.fb-header-v2 {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 4px;
+}
+
+.fb-username {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.fb-date {
+    font-size: 12px;
+    color: var(--text-tertiary);
+}
+
+.fb-stars-v2 {
+    display: flex;
+    gap: 2px;
+    color: #f59e0b;
+    margin-bottom: 8px;
+}
+
+.fb-text {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+.fb-view-all {
+    text-align: center;
+    padding-top: 16px;
+}
+
+.fb-view-all a {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--accent);
+}
+
+.fb-view-all a:hover {
+    text-decoration: underline;
 }

@@ -62,4 +62,18 @@ class Feedback extends Database
         $stmt->bind_param("i", $id);
         return $stmt->execute();
     }
+
+    public function getByGameId($gameId)
+    {
+        $stmt = $this->conn->prepare(
+            "SELECT f.rating, f.comment, f.created_at, u.username
+             FROM feedbacks f
+             JOIN users u ON f.user_id = u.id
+             WHERE f.game_id = ?
+             ORDER BY f.created_at DESC"
+        );
+        $stmt->bind_param("i", $gameId);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
 }
