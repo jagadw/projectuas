@@ -51,8 +51,8 @@ require_once 'templates/header.php';
                 <div class="lib-item-img-inner">
                     <?php
                     $imgSrc = !empty($key['image'])
-                        ? 'public/assets/' . htmlspecialchars($key['image'])
-                        : 'https://picsum.photos/seed/' . ($key['transaction_id'] + 50) . '/400/250';
+                        ? 'public/uploads/' . htmlspecialchars($key['image'])
+                        : 'public/uploads/default.jpg';
                     ?>
                     <img src="<?php echo $imgSrc; ?>" alt="<?php echo htmlspecialchars($key['title']); ?>">
                 </div>

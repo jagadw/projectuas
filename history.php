@@ -40,8 +40,8 @@ require_once 'templates/header.php';
             <tbody>
                 <?php foreach($transactions as $tx):
                     $imgSrc = !empty($tx['first_image'])
-                        ? 'public/assets/' . htmlspecialchars($tx['first_image'])
-                        : 'https://picsum.photos/seed/' . ($tx['first_game_id'] + 50) . '/80/80';
+                        ? 'public/uploads/' . htmlspecialchars($tx['first_image'])
+                        : 'public/uploads/default.jpg';
                     $statusClass = match($tx['payment_status']) {
                         'settlement' => 'status-settlement',
                         'pending'    => 'status-pending',

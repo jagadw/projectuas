@@ -60,7 +60,7 @@
             </div>
             <div class="form-group">
                 <label>Gambar</label>
-                <input type="file" name="image" accept="image/jpeg,image/png,image/webp">
+                <input type="file" name="image" accept="image/jpeg,image/png,image/webp,image/avif">
                 <?php if (!empty($editGame['image'])): ?><p class="text-muted">Gambar saat ini: <?php echo e($editGame['image']); ?></p><?php endif; ?>
             </div>
             <div class="form-group">
