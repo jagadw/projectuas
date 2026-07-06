@@ -44,6 +44,18 @@ if(isset($_SESSION['user_id'])) {
 }
 ?>
 
+<style>
+.card.out-of-stock {
+    opacity: 0.6;
+    filter: grayscale(70%);
+    transition: all 0.3s ease;
+}
+.card.out-of-stock:hover {
+    opacity: 0.85;
+    filter: grayscale(20%);
+}
+</style>
+
 <div class="home-wrapper">
     
     <aside class="home-sidebar">
@@ -97,8 +109,9 @@ if(isset($_SESSION['user_id'])) {
                 $gameCategory = !empty($g['genre_name']) ? $g['genre_name'] : 'Lainnya';
                 $imgSrc = !empty($g['image']) ? "public/uploads/" . htmlspecialchars($g['image']) : "public/uploads/default.jpg";
                 $gamePlatform = !empty($g['platform']) ? $g['platform'] : 'PC';
+                $outOfStock = isset($g['stock']) && $g['stock'] == 0;
             ?>
-                <div class="card" data-category="<?php echo $gameCategory; ?>" data-platform="<?php echo $gamePlatform; ?>" data-price="<?php echo $g['price']; ?>">
+                <div class="card <?php echo $outOfStock ? 'out-of-stock' : ''; ?>" data-category="<?php echo $gameCategory; ?>" data-platform="<?php echo $gamePlatform; ?>" data-price="<?php echo $g['price']; ?>">
                     <a href="detail.php?id=<?php echo $g['id']; ?>" class="card-link">
                         <div class="card-img">
                             <img src="<?php echo $imgSrc; ?>" alt="<?php echo htmlspecialchars($g['title']); ?>" onerror="this.src='public/uploads/default.jpg'">
@@ -112,6 +125,12 @@ if(isset($_SESSION['user_id'])) {
                                     <span class="badge" style="margin-bottom: 4px; display: inline-block;"><?php echo htmlspecialchars($gn); ?></span>
                                 <?php endforeach; ?>
                                 <span class="badge badge-platform" style="margin-bottom: 4px; display: inline-block;"><?php echo htmlspecialchars($gamePlatform); ?></span>
+                                
+                                <?php if (isset($g['stock']) && $g['stock'] > 0): ?>
+                                    <span class="badge" style="margin-bottom: 4px; display: inline-block; background-color: rgba(40, 167, 69, 0.15); color: #28a745; border: 1px solid rgba(40, 167, 69, 0.3);">Stok: <?php echo $g['stock']; ?></span>
+                                <?php else: ?>
+                                    <span class="badge" style="margin-bottom: 4px; display: inline-block; background-color: rgba(220, 53, 69, 0.15); color: #dc3545; border: 1px solid rgba(220, 53, 69, 0.3);">Stok Habis</span>
+                                <?php endif; ?>
                             </div>
                             <h3><?php echo htmlspecialchars($g['title']); ?></h3>
                             <p class="desc"><?php echo htmlspecialchars($g['description']); ?></p>
@@ -130,6 +149,8 @@ if(isset($_SESSION['user_id'])) {
                                 <input type="hidden" name="game_id" value="<?php echo $g['id']; ?>">
                                 <?php if($inCart): ?>
                                     <button type="submit" name="remove_cart" class="btn btn-outline-cyan" style="background:var(--accent);color:white;opacity:0.8;" title="Hapus dari Keranjang">Di Keranjang</button>
+                                <?php elseif($outOfStock): ?>
+                                    <button type="button" class="btn btn-outline-cyan" style="opacity:0.5;cursor:not-allowed;" title="Stok Habis" disabled>+ Keranjang</button>
                                 <?php else: ?>
                                     <button type="submit" name="add_cart" class="btn btn-outline-cyan">+ Keranjang</button>
                                 <?php endif; ?>

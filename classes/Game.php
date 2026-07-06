@@ -10,7 +10,8 @@ class Game extends Database {
                    (SELECT GROUP_CONCAT(gr.name SEPARATOR ', ') 
                     FROM game_genres gg 
                     JOIN genres gr ON gg.genre_id = gr.id 
-                    WHERE gg.game_id = g.id) as genre_name 
+                    WHERE gg.game_id = g.id) as genre_name,
+                   (SELECT COUNT(id) FROM game_keys WHERE game_id = g.id AND status = 'available') as stock
             FROM games g
         ";
         $result = $this->conn->query($query);
