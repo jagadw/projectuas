@@ -48,6 +48,11 @@ if(isset($_SESSION['user_id'])) {
     
     <aside class="home-sidebar">
         <div class="sidebar-section">
+            <h4>Cari Game</h4>
+            <input type="text" id="searchInput" placeholder="Ketik judul game..." style="width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: #fff; box-sizing: border-box; outline: none; margin-bottom: 5px; font-family: inherit;">
+        </div>
+
+        <div class="sidebar-section">
             <h4>Kategori</h4>
             <div class="filter-tags">
                 <button class="filter-btn active" data-filter="category" data-value="all">Semua</button>
@@ -149,8 +154,44 @@ if(isset($_SESSION['user_id'])) {
 </div>
 
 <script>
-    const activeFilters = { category: 'all', platform: 'all', price: 'all' };
+    const activeFilters = { category: 'all', platform: 'all', price: 'all', search: '' };
     const cards = document.querySelectorAll('.card');
+
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            activeFilters.search = e.target.value.toLowerCase();
+            applyFilters();
+        });
+    }
+
+    function applyFilters() {
+        let visibleCount = 0;
+        cards.forEach(card => {
+            const cardCategories = card.getAttribute('data-category').split(', ');
+            const catMatch = activeFilters.category === 'all' || cardCategories.includes(activeFilters.category);
+            const platMatch = activeFilters.platform === 'all' || card.getAttribute('data-platform') === activeFilters.platform;
+            
+            const price = parseInt(card.getAttribute('data-price'));
+            let priceMatch = true;
+            if(activeFilters.price === 'under100k') priceMatch = price > 0 && price < 100000;
+            else if(activeFilters.price === '100k-250k') priceMatch = price >= 100000 && price <= 250000;
+            else if(activeFilters.price === 'above250k') priceMatch = price > 250000;
+
+            const titleElement = card.querySelector('h3');
+            const title = titleElement ? titleElement.textContent.toLowerCase() : '';
+            const searchMatch = title.includes(activeFilters.search);
+
+            if(catMatch && platMatch && priceMatch && searchMatch) {
+                card.style.display = 'flex';
+                visibleCount++;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+
+        document.getElementById('resultCount').textContent = visibleCount + ' produk';
+    }
 
     document.querySelectorAll('.filter-btn').forEach(btn => {
         btn.addEventListener('click', () => {
@@ -162,27 +203,7 @@ if(isset($_SESSION['user_id'])) {
             btn.closest('.filter-tags').querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
 
-            let visibleCount = 0;
-            cards.forEach(card => {
-                const cardCategories = card.getAttribute('data-category').split(', ');
-                const catMatch = activeFilters.category === 'all' || cardCategories.includes(activeFilters.category);
-                const platMatch = activeFilters.platform === 'all' || card.getAttribute('data-platform') === activeFilters.platform;
-                
-                const price = parseInt(card.getAttribute('data-price'));
-                let priceMatch = true;
-                if(activeFilters.price === 'under100k') priceMatch = price > 0 && price < 100000;
-                else if(activeFilters.price === '100k-250k') priceMatch = price >= 100000 && price <= 250000;
-                else if(activeFilters.price === 'above250k') priceMatch = price > 250000;
-
-                if(catMatch && platMatch && priceMatch) {
-                    card.style.display = 'flex';
-                    visibleCount++;
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-
-            document.getElementById('resultCount').textContent = visibleCount + ' produk';
+            applyFilters();
         });
     });
 </script>
