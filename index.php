@@ -14,12 +14,20 @@ if(isset($_POST['add_cart'])) {
     $cart = new Cart();
     $cart->addToCart($_SESSION['user_id'], $_POST['game_id']);
     $msg = "Game berhasil ditambahkan ke keranjang!";
+} elseif (isset($_POST['remove_cart'])) {
+    $cart = new Cart();
+    $cart->removeByGameId($_POST['game_id'], $_SESSION['user_id']);
+    $msg = "Game berhasil dihapus dari keranjang!";
 }
 
 if(isset($_POST['add_fav'])) {
     $fav = new Favorite();
     $fav->addToFavorite($_SESSION['user_id'], $_POST['game_id']);
     $msg = "Game berhasil disimpan ke favorit!";
+} elseif (isset($_POST['remove_fav'])) {
+    $fav = new Favorite();
+    $fav->removeByGameId($_POST['game_id'], $_SESSION['user_id']);
+    $msg = "Game berhasil dihapus dari favorit!";
 }
 
 $categories = $gameObj->getAllGenres();
@@ -116,13 +124,13 @@ if(isset($_SESSION['user_id'])) {
                                 ?>
                                 <input type="hidden" name="game_id" value="<?php echo $g['id']; ?>">
                                 <?php if($inCart): ?>
-                                    <button type="button" class="btn btn-outline-cyan" style="background:var(--accent);color:white;opacity:0.8;cursor:default;" title="Sudah di Keranjang">Di Keranjang</button>
+                                    <button type="submit" name="remove_cart" class="btn btn-outline-cyan" style="background:var(--accent);color:white;opacity:0.8;" title="Hapus dari Keranjang">Di Keranjang</button>
                                 <?php else: ?>
                                     <button type="submit" name="add_cart" class="btn btn-outline-cyan">+ Keranjang</button>
                                 <?php endif; ?>
 
                                 <?php if($inFav): ?>
-                                    <button type="button" class="btn btn-love" style="color:var(--pink);border-color:var(--pink);background:rgba(233,61,130,0.08);cursor:default;" title="Sudah di Favorit">
+                                    <button type="submit" name="remove_fav" class="btn btn-love" style="color:var(--pink);border-color:var(--pink);background:rgba(233,61,130,0.08);" title="Hapus dari Favorit">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
                                     </button>
                                 <?php else: ?>

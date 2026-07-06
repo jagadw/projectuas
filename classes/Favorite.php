@@ -36,5 +36,11 @@ class Favorite extends Database {
         $stmt->bind_param("ii", $fav_id, $user_id);
         return $stmt->execute();
     }
+
+    public function removeByGameId($game_id, $user_id) {
+        $stmt = $this->conn->prepare("DELETE FROM favorites WHERE game_id = ? AND user_id = ?");
+        $stmt->bind_param("ii", $game_id, $user_id);
+        return $stmt->execute();
+    }
 }
 ?>

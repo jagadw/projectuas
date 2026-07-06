@@ -53,5 +53,11 @@ class Cart extends Database {
         $stmt->bind_param("ii", $cart_item_id, $user_id);
         return $stmt->execute();
     }
+
+    public function removeByGameId($game_id, $user_id) {
+        $stmt = $this->conn->prepare("DELETE ci FROM cart_items ci JOIN carts c ON ci.cart_id = c.id WHERE ci.game_id = ? AND c.user_id = ?");
+        $stmt->bind_param("ii", $game_id, $user_id);
+        return $stmt->execute();
+    }
 }
 ?>
