@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.3
+-- version 5.2.2
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Jul 05, 2026 at 06:43 AM
--- Server version: 8.0.46-0ubuntu0.24.04.3
--- PHP Version: 8.3.6
+-- Host: localhost:3306
+-- Generation Time: Jul 06, 2026 at 06:41 AM
+-- Server version: 8.4.3
+-- PHP Version: 8.3.16
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `db_projectuas`
+-- Database: `projectuas`
 --
 
 -- --------------------------------------------------------
@@ -31,6 +31,14 @@ CREATE TABLE `carts` (
   `id` int NOT NULL,
   `user_id` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `carts`
+--
+
+INSERT INTO `carts` (`id`, `user_id`) VALUES
+(6, 1),
+(7, 6);
 
 -- --------------------------------------------------------
 
@@ -45,6 +53,14 @@ CREATE TABLE `cart_items` (
   `quantity` int DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Dumping data for table `cart_items`
+--
+
+INSERT INTO `cart_items` (`id`, `cart_id`, `game_id`, `quantity`) VALUES
+(37, 7, 59, 1),
+(38, 6, 27, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -56,6 +72,13 @@ CREATE TABLE `favorites` (
   `user_id` int DEFAULT NULL,
   `game_id` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `favorites`
+--
+
+INSERT INTO `favorites` (`id`, `user_id`, `game_id`) VALUES
+(6, 6, 11);
 
 -- --------------------------------------------------------
 
@@ -103,17 +126,57 @@ CREATE TABLE `games` (
 --
 
 INSERT INTO `games` (`id`, `title`, `description`, `price`, `image`, `platform`, `created_at`) VALUES
-(10, 'Palworld', 'Game open world survival bareng Pals yang lucu.', 245000.00, 'palworld.jpg', 'PC', '2026-06-21 14:25:18'),
-(11, 'Grand Theft Auto V', 'Game open world paling populer dari Rockstar Games.', 150000.00, 'gta.jpg', 'PC', '2026-06-21 14:25:18'),
-(12, 'Minecraft', 'Game sandbox untuk membangun apapun yang kamu mau.', 300000.00, 'minecraft.jpg', 'Multiplatform', '2026-06-21 14:25:18'),
-(13, 'Valorant', 'Game FPS tactical 5v5 yang seru banget.', 0.00, 'game_1782729790_1978.png', 'PC', '2026-06-21 14:25:18'),
-(14, 'Red Dead Redemption 2', 'Game aksi petualangan epik berlatar di dunia koboi Amerika.', 600000.00, 'rdr2.jpg', 'PC', '2026-06-21 14:25:18'),
-(15, 'The Last of Us Part I', 'Perjalanan emosional Ellie dan Joel di dunia pasca kiamat.', 850000.00, 'tlou.jpg', 'Playstation', '2026-06-21 14:25:18'),
-(16, 'Forza Horizon 5', 'Eksplorasi open world yang indah di Meksiko dengan mobil impian.', 750000.00, 'forza5.jpg', 'Xbox', '2026-06-21 14:25:18'),
-(17, 'The Witcher 3: Wild Hunt', 'Ikuti petualangan Geralt of Rivia dalam mencari anak angkatnya.', 250000.00, 'witcher3.jpg', 'PC', '2026-06-21 14:25:18'),
-(18, 'Ghost of Tsushima 2', 'Menjadi samurai atau Ghost untuk menyelamatkan pulau Tsushima.', 700000.00, 'got.jpg', 'Playstation', '2026-06-21 14:25:18'),
-(20, 'tes', 'testtt', 10000.00, 'game_1782101893_8538.png', 'Playstation', '2026-06-22 02:07:45'),
-(21, 'Ratione elit sunt', 'Reiciendis et non re', 871.00, 'game_1782103328_8614.jpg', 'Xbox', '2026-06-22 04:42:08');
+(11, 'Grand Theft Auto V', 'Experience entertainment blockbusters Grand Theft Auto V and Grand Theft Auto Online — now upgraded for a new generation with stunning visuals, faster loading, 3D audio, and more, plus exclusive content for GTA Online players.', 439000.00, 'game_1783242379_2569.avif', 'Multiplatform', '2026-06-21 14:25:18'),
+(12, 'Minecraft', 'Game sandbox untuk membangun apapun yang kamu mau.', 300000.00, 'game_1783302150_5185.avif', 'Multiplatform', '2026-06-21 14:25:18'),
+(14, 'Red Dead Redemption 2', 'Arthur Morgan dan Van der Linde Gang adalah pelanggar hukum yang kabur. Diikuti agen federal dan pemburu hadiah, mereka harus merampok, mencuri, dan bertarung di sepanjang jalan daratan liar guna bertahan hidup.', 879000.00, 'game_1783243729_5074.jpg', 'Multiplatform', '2026-06-21 14:25:18'),
+(18, 'Ghost of Tsushima 2', 'Badai akan datang. Jelajahi Ghost of Tsushima lengkap di PC tempa jalanmu sendiri melalui petualangan aksi dunia terbuka ini dan temukan keajaiban tersembunyinya. Dipersembahkan oleh Sucker Punch Productions, Nixxes Software, dan PlayStation Studios.', 700000.00, 'game_1783301759_2673.webp', 'PC', '2026-06-21 14:25:18'),
+(21, 'God of War Ragnarok', 'Kratos dan Atreus memulai perjalanan mitologis untuk mencari jawaban sebelum Ragnarök tiba.', 1029000.00, 'game_1783302100_4876.avif', 'Playstation', '2026-06-22 04:42:08'),
+(23, 'Call of Duty: Modern Warfare II', 'Call of Duty®: Modern Warfare® II membawa pemain ke dalam konflik global yang belum pernah terjadi sebelumnya yang menampilkan Operator ikonik dari Task Force 141.', 1040000.00, 'cod mw2.jpg', 'Multiplatform', '2026-07-05 00:05:26'),
+(25, 'Split Fiction', 'Game indie unik dengan teka-teki mind-bending.', 150000.00, 'splitf.avif', 'PC', '2026-07-05 01:01:08'),
+(26, 'Hot Wheels Unleashed 2: Turbocharged', 'Lomba mobil tercanggih telah kembali dan membawa keseruan ke level selanjutnya! Lebih dari 130 mobil dengan montir baru dan tipe kendaraan lebih banyak! Bangun jalurmu dengan lingkungan baru yang menakjubkan dan mode berbeda untuk bergembira secara daring dan luring!', 699000.00, 'hotw 2.avif', 'Multiplatform', '2026-07-05 01:30:08'),
+(27, 'Mecha Chameleon', 'Warnai dirimu agar menyatu dengan lingkungan! \"Meccha Chameleon\" adalah permainan petak umpet sensasional baru di mana kamu mewarnai tubuh putihmu untuk meniru panggung. Menemukan, berpose, dan \"keterampilan artistik\" adalah kunci untuk bertahan hidup. Kelabui para Pencari dengan teknik yang membuat bunglon malu! Mendukung pertandingan publik dan streaming.', 120000.00, 'mechachameleon.webp', 'PC', '2026-07-05 01:55:08'),
+(28, 'Tekken 7', 'Temukan kesimpulan epik dari peperangan antar klan yang telah berlangsung lama di antara anggota keluarga Mishima. Didukung oleh Unreal Engine 4, franchise game pertarungan legendaris ini kembali dengan pertempuran sinematik yang menakjubkan dan duel intens yang dapat dinikmati bersama teman dan rival.', 350000.00, 'tekken7.jpg', 'Multiplatform', '2026-07-05 02:07:30'),
+(29, 'Battlefield 4', 'Perang modern berskala besar dengan kehancuran dinamis.', 250000.00, 'bf 4.avif', 'PC', '2026-07-05 02:14:08'),
+(30, 'Hot Wheels Unleashed', 'Balapan mobil Hot Wheels di trek epik.', 300000.00, 'hotw.webp', 'Multiplatform', '2026-07-05 02:21:18'),
+(31, 'Forza Horizon 5', 'Jelajahi lanskap dunia terbuka Meksiko yang semarak dengan aksi berkendara yang seru dan tanpa batas menggunakan mobil-mobil terbaik di dunia.', 750000.00, 'forza6.avif', 'Xbox', '2026-07-05 02:36:55'),
+(32, 'Like a Dragon: Pirate Yakuza in Hawaii', 'Petualangan yakuza gila di Hawaii dengan tema bajak laut.', 900000.00, 'pirate.avif', 'Playstation', '2026-07-05 02:52:55'),
+(33, 'Baldur\'s Gate 3', 'Baldur’s Gate 3 adalah RPG berbasis kelompok yang kaya akan cerita, berlatar di alam semesta Dungeons & Dragons, di mana pilihan Anda membentuk kisah persahabatan dan pengkhianatan, bertahan hidup dan pengorbanan, serta daya tarik kekuasaan absolut.', 699999.00, 'bdg.avif', 'Multiplatform', '2026-07-05 03:08:29'),
+(34, 'It Takes Two', 'Game co-op pemenang penghargaan yang harus dimainkan berdua.', 400000.00, 'it takes 2.webp', 'Multiplatform', '2026-07-05 03:40:19'),
+(35, 'EA Sports FC 26', 'Simulasi sepak bola terbaik tahun ini.', 950000.00, 'fc26.avif', 'Multiplatform', '2026-07-05 04:01:55'),
+(36, 'Atomic Heart', 'FPS action di realitas alternatif Uni Soviet.', 550000.00, 'AH .avif', 'PC', '2026-07-05 04:34:23'),
+(37, 'Palworld', 'Bertarung, bertani, membangun, dan bekerja bersama makhluk misterius yang disebut \"Pals\" dalam game bertahan hidup dan membuat barang multipemain dunia terbuka yang benar-benar baru ini!', 250000.00, 'palworld.avif', 'PC', '2026-07-05 05:03:57'),
+(38, 'The Last of Us Part I', 'Kisah emosional Joel dan Ellie dalam grafis remake.', 850000.00, 'tlou1.webp', 'Playstation', '2026-07-05 05:45:37'),
+(39, 'The Witcher 3: Wild Hunt', 'RPG open world mahakarya tentang pemburu monster.', 350000.00, 'tw.avif', 'PC', '2026-07-05 06:22:43'),
+(40, 'Watch Dogs 2', 'Petualangan hacker di San Francisco.', 400000.00, 'wd2.avif', 'PC', '2026-07-05 06:36:37'),
+(41, 'Assassin\'s Creed Valhalla', 'Jadilah Viking legendaris di tanah Inggris.', 650000.00, 'valhalla.avif', 'Multiplatform', '2026-07-05 06:44:33'),
+(42, 'Call of Duty: Vanguard', 'Perang Dunia II dari berbagai front pertempuran.', 750000.00, 'vanguard.jpg', 'Multiplatform', '2026-07-05 07:03:56'),
+(44, 'No Man\'s Sky', 'Eksplorasi luar angkasa dengan miliaran planet prosedural.', 450000.00, 'no man sky.avif', 'PC', '2026-07-05 07:32:59'),
+(45, 'Cyberpunk 2077', 'RPG futuristik di Night City yang penuh obsesi pada modifikasi tubuh.', 600000.00, 'cpunk.avif', 'PC', '2026-07-05 07:39:53'),
+(46, 'Batman: Arkham Knight', 'Babak akhir dari seri Arkham dengan Batmobile.', 250000.00, 'arkham.avif', 'PC', '2026-07-05 07:54:45'),
+(47, 'Coral Island', 'Coral Island adalah gim pertanian yang dinamis nan santai yang hadir dengan fitur multiplayer! Rasakan kehidupan pulau penuh pesona sesuai keinginan kamu: bertani dengan teman, merawat hewan, membangun hubungan, bergaul dengan beragam karakter, dan menyelami Kerajaan Duyung yang ajaib.', 245999.00, 'coral island.avif', 'Multiplatform', '2026-07-05 08:18:51'),
+(48, 'Hogwarts Legacy', 'Hogwarts Legacy is an immersive, open-world action RPG. Now you can take control of the action and be at the center of your own adventure in the wizarding world.', 799000.00, 'hogwhart.avif', 'Multiplatform', '2026-07-05 08:30:09'),
+(49, 'Call of Duty: Modern Warfare', 'Experience a visceral Campaign or assemble your team in the ultimate online playground with multiple Special Ops challenges and a mix of Multiplayer maps and modes.', 891000.00, 'cod mw1.webp', 'Multiplatform', '2026-07-05 08:50:02'),
+(50, 'Stardew Valley', 'Anda mewarisi lahan pertanian tua kakek Anda di Stardew Valley. Berbekal peralatan warisan dan beberapa koin, Anda memulai kehidupan baru. Dapatkah Anda belajar hidup dari hasil bumi dan mengubah ladang yang ditumbuhi semak belukar ini menjadi rumah yang makmur?', 199999.00, 'stardew valley.avif', 'Multiplatform', '2026-07-05 09:12:16'),
+(51, 'Dead Space', 'Game klasik bergenre survival-horror fiksi ilmiah ini kembali hadir, sepenuhnya dibangun ulang untuk menawarkan pengalaman yang lebih mendalam termasuk peningkatan visual, audio, dan gameplay sambil tetap setia pada visi mendebarkan dari game aslinya.', 659000.00, 'deadspace.webp', 'Xbox', '2026-07-05 09:28:46'),
+(52, 'Astro Bot', 'Platformer seru yang memaksimalkan fitur controller PlayStation.', 950000.00, 'astrobot.avif', 'Playstation', '2026-07-05 10:06:22'),
+(53, 'Battlefield 2042', 'Battlefield™ 2042 is a first-person shooter that marks the return to the iconic all-out warfare of the franchise.', 659000.00, 'bf6.avif', 'Multiplatform', '2026-07-05 10:51:10'),
+(54, 'Pragmata', 'Pragmata adalah gim aksi-petualangan fiksi ilmiah yang unik dari Capcom. Ikuti Hugh, anggota tim investigasi yang bernasib buruk, dan Diana, seorang android muda, saat mereka menjelajahi fasilitas bulan yang dikuasai oleh AI jahat untuk mencari jalan kembali ke Bumi.', 779000.00, 'pragmata.avif', 'Multiplatform', '2026-07-05 11:35:51'),
+(55, 'Sea of Thieves', 'Sea of ​​Thieves adalah gim petualangan bajak laut yang sangat populer, menawarkan pengalaman bajak laut sejati berupa menjarah harta karun yang hilang, pertempuran sengit, menaklukkan monster laut, dan banyak lagi. Selami keseruan dengan edisi revisi gim ini, yang mencakup akses ke media bonus digital.', 449000.00, 'sot.jpeg', 'Xbox', '2026-07-05 12:10:20'),
+(56, 'A Space for the Unbound', 'A magical adventure about two high school sweethearts set at the end of their school days - and the end of the world. Explore a crumbling town and help friends face their inner demons, which could be the key to stopping reality itself disintegrating. And don’t forget to pet the cats.', 99900.00, 'aspace.avif', 'Multiplatform', '2026-07-05 12:45:21'),
+(57, 'Watch Dogs: Legion', 'Bangun perlawanan saat Anda berjuang untuk merebut kembali London di masa depan yang sedang menuju kehancurannya. Selamat datang di Perlawanan.', 619000.00, 'wd legion.avif', 'Multiplatform', '2026-07-05 13:00:29'),
+(58, 'Limbo', 'Karena tidak yakin dengan nasib saudara perempuannya, seorang anak laki-laki memasuki LIMBO.', 100000.00, 'limbo.jpg', 'Multiplatform', '2026-07-05 13:05:53'),
+(59, 'Far Cry 3 Classic Edition', 'Discover the dark secrets of a lawless island ruled by violence and take the fight to the enemy as you try to escape. You’ll need more than luck to escape alive!', 205000.00, 'fc 3.avif', 'Multiplatform', '2026-07-05 13:43:14'),
+(60, 'Human: Fall Flat', 'Human Fall Flat adalah game platformer yang lucu dan ringan berlatar lanskap mimpi yang mengambang, yang dapat dimainkan sendirian atau hingga 8 pemain secara online. Level baru gratis terus memberikan penghargaan kepada komunitasnya yang dinamis.', 125999.00, 'hff.avif', 'Xbox', '2026-07-05 14:12:43'),
+(61, 'Black Myth: Wukong', 'Black Myth: Wukong is an action RPG rooted in Chinese mythology. You shall set out as the Destined One to venture into the challenges and marvels ahead, to uncover the obscured truth beneath the veil of a glorious legend from the past.', 699999.00, 'wukong.avif', 'Multiplatform', '2026-07-05 14:40:00'),
+(62, 'The Last of Us Part II', 'Kelanjutan perjalanan Ellie yang penuh dengan dendam dan darah.', 850000.00, 'tlou2.avif', 'Playstation', '2026-07-05 15:24:45'),
+(63, 'Overcooked! 2', 'Overcooked kembali hadir dengan sajian aksi memasak yang kacau dan serba baru! Kembali ke Onion Kingdom dan kumpulkan tim koki Anda untuk bermain bersama secara lokal (couch co-op) atau daring, yang mendukung hingga empat pemain. Siapkan celemek Anda... saatnya menyelamatkan dunia lagi!', 199000.00, 'overcooked2.avif', 'PC', '2026-07-05 15:50:33'),
+(64, 'Stray', 'Tersesat, sendirian, dan terpisah dari keluarga, seekor kucing liar harus mengungkap misteri kuno untuk melarikan diri dari kota siber yang telah lama terlupakan dan menemukan jalan pulang.', 239000.00, 'stray.avif', 'Playstation', '2026-07-05 16:25:25'),
+(65, 'Battlefield V', 'Inilah pengalaman Battlefield V terbaik. Masuki konflik terbesar umat manusia dengan persenjataan, kendaraan, dan gadget terlengkap, ditambah konten kustomisasi terbaik dari Tahun 1 dan 2.', 569000.00, 'bf5.avif', 'Multiplatform', '2026-07-05 16:35:59'),
+(66, 'A Way Out', 'A Way Out adalah petualangan kooperatif eksklusif di mana Anda berperan sebagai salah satu dari dua narapidana yang melakukan pelarian berani dari penjara.', 379000.00, 'awayout.avif', 'Multiplatform', '2026-07-05 16:59:55'),
+(67, 'R.E.P.O.', 'Sebuah game horor kooperatif online hingga 6 pemain. Temukan objek berharga yang sepenuhnya berbasis fisika dan tangani dengan hati-hati saat Anda mengambil dan mengekstraknya untuk memenuhi keinginan pencipta Anda.', 84500.00, 'repo.webp', 'PC', '2026-07-05 17:41:41'),
+(68, 'Clair Obscur: Expedition 33', 'Pimpin para anggota Ekspedisi 33 dalam perjalanan mereka untuk mengalahkan Sang Pelukis - hingga dia tak bisa melukis kematian lagi. Arungi dunia yang terinspirasi oleh Belle Époque Prancis dalam RPG berbasis giliran dengan mekanisme real-time.', 499000.00, 'game_1783258000_2866.jpg', 'Multiplatform', '2026-07-05 13:26:40'),
+(69, 'ARK: Survival Ascended', 'ARK dirancang ulang dari awal dengan teknologi video game generasi berikutnya menggunakan Unreal Engine 5! Bentuk suku, jinakkan & kembangbiakkan ratusan dinosaurus unik dan makhluk purba, jelajahi, buat, bangun, dan berjuanglah menuju puncak rantai makanan. Dunia barumu menanti!', 715000.00, 'game_1783301907_7645.avif', 'Multiplatform', '2026-07-06 01:38:27'),
+(70, 'The Elder Scrolls Online', 'Setiap legenda bermula dari suatu tempat, dan di The Elder Scrolls Online, semuanya dimulai dari Anda. Bergabunglah dengan jutaan pemain dalam game RPG fantasi online yang berlatar dunia Elder Scrolls yang luas dan hidup.', 266000.00, 'game_1783302773_6044.avif', 'Multiplatform', '2026-07-06 01:52:53');
 
 -- --------------------------------------------------------
 
@@ -132,11 +195,136 @@ CREATE TABLE `game_genres` (
 --
 
 INSERT INTO `game_genres` (`id`, `game_id`, `genre_id`) VALUES
-(17, 20, 3),
-(18, 20, 1),
-(19, 21, 3),
-(20, 21, 1),
-(21, 13, 1);
+(28, 25, 11),
+(29, 25, 10),
+(34, 29, 7),
+(35, 29, 6),
+(36, 30, 8),
+(39, 32, 6),
+(40, 32, 1),
+(42, 34, 10),
+(43, 34, 11),
+(44, 35, 13),
+(45, 36, 7),
+(46, 36, 6),
+(49, 38, 6),
+(50, 38, 12),
+(51, 39, 1),
+(52, 39, 2),
+(53, 40, 6),
+(54, 40, 2),
+(55, 41, 6),
+(56, 41, 1),
+(57, 42, 7),
+(60, 44, 2),
+(61, 44, 16),
+(62, 45, 1),
+(63, 45, 2),
+(64, 46, 6),
+(65, 46, 10),
+(75, 52, 9),
+(93, 62, 6),
+(94, 62, 12),
+(104, 27, 6),
+(105, 27, 7),
+(106, 66, 6),
+(107, 66, 10),
+(108, 66, 5),
+(109, 66, 11),
+(110, 67, 12),
+(111, 67, 17),
+(112, 65, 6),
+(113, 65, 7),
+(114, 64, 10),
+(115, 64, 9),
+(116, 68, 10),
+(117, 68, 15),
+(118, 68, 17),
+(119, 68, 9),
+(120, 68, 1),
+(121, 63, 17),
+(122, 63, 5),
+(123, 63, 14),
+(124, 61, 6),
+(125, 61, 15),
+(126, 61, 1),
+(127, 26, 5),
+(128, 26, 8),
+(132, 59, 6),
+(133, 59, 7),
+(134, 59, 2),
+(135, 59, 1),
+(136, 58, 17),
+(137, 58, 9),
+(138, 58, 11),
+(139, 57, 6),
+(140, 57, 2),
+(141, 57, 11),
+(142, 57, 1),
+(143, 56, 10),
+(144, 56, 17),
+(145, 56, 11),
+(149, 54, 6),
+(150, 54, 10),
+(151, 53, 6),
+(152, 53, 7),
+(153, 53, 5),
+(157, 50, 5),
+(158, 50, 1),
+(159, 50, 14),
+(160, 49, 7),
+(161, 49, 5),
+(162, 48, 6),
+(163, 48, 1),
+(164, 47, 5),
+(165, 47, 1),
+(166, 47, 14),
+(167, 11, 6),
+(168, 11, 10),
+(169, 11, 5),
+(170, 11, 2),
+(174, 14, 6),
+(175, 14, 10),
+(176, 14, 2),
+(177, 14, 1),
+(178, 23, 6),
+(179, 23, 7),
+(180, 23, 5),
+(181, 33, 1),
+(185, 37, 5),
+(186, 37, 2),
+(187, 37, 16),
+(188, 18, 6),
+(189, 18, 10),
+(190, 18, 2),
+(195, 69, 6),
+(196, 69, 10),
+(197, 69, 5),
+(198, 69, 16),
+(202, 21, 6),
+(203, 21, 10),
+(204, 21, 1),
+(205, 12, 5),
+(206, 12, 4),
+(207, 12, 16),
+(208, 28, 6),
+(209, 28, 15),
+(210, 28, 5),
+(211, 70, 6),
+(212, 70, 10),
+(213, 70, 3),
+(214, 60, 5),
+(215, 60, 9),
+(216, 60, 11),
+(217, 31, 2),
+(218, 31, 8),
+(219, 31, 13),
+(220, 55, 10),
+(221, 55, 5),
+(222, 55, 2),
+(223, 51, 6),
+(224, 51, 12),
+(225, 51, 1);
 
 -- --------------------------------------------------------
 
@@ -156,23 +344,71 @@ CREATE TABLE `game_keys` (
 --
 
 INSERT INTO `game_keys` (`id`, `game_id`, `key_code`, `status`) VALUES
-(46, 10, 'PALW-ORLD-KEY1-2026', 'available'),
-(47, 10, 'PALW-ORLD-KEY2-2026', 'available'),
 (48, 11, 'GTAV-ROCK-KEY1-2026', 'sold'),
 (49, 11, 'GTAV-ROCK-KEY2-2026', 'available'),
 (50, 12, 'MINE-CRAF-KEY1-2026', 'sold'),
 (51, 12, 'MINE-CRAF-KEY2-2026', 'available'),
 (52, 14, 'RDR2-ROCK-KEY1-2026', 'available'),
 (53, 14, 'RDR2-ROCK-KEY2-2026', 'available'),
-(54, 15, 'TLOU-SONY-KEY1-2026', 'available'),
-(55, 15, 'TLOU-SONY-KEY2-2026', 'available'),
-(56, 16, 'FRZ5-XBOX-KEY1-2026', 'available'),
-(57, 16, 'FRZ5-XBOX-KEY2-2026', 'available'),
-(58, 17, 'WITC-CDR3-KEY1-2026', 'available'),
-(59, 17, 'WITC-CDR3-KEY2-2026', 'available'),
 (60, 18, 'GOTS-SONY-KEY1-2026', 'sold'),
 (61, 18, 'GOTS-SONY-KEY2-2026', 'available'),
-(67, 21, 'avds', 'sold');
+(67, 21, 'avds', 'sold'),
+(70, 56, 'Q9F2K-M7P4X-C5W8R', 'available'),
+(71, 61, 'V3T6B-N1L9J-D8R2M', 'available'),
+(72, 69, 'H5K8C-W2Q9X-P4M7F', 'available'),
+(73, 42, 'Z7R3T-N8J2D-B5L9M', 'available'),
+(74, 29, 'C4F9W-Q1P6K-X8M3H', 'available'),
+(75, 33, 'K8L4M-X1C7F-Q2P9W', 'available'),
+(76, 64, 'W3Q6X-M9P2K-F8C5R', 'available'),
+(77, 49, 'T7J1D-R4N9B-L6M2V', 'available'),
+(78, 67, 'P5M8F-K3C9X-Q1W4R', 'available'),
+(79, 56, 'D2R6M-N7J1T-B9L4V', 'available'),
+(80, 66, 'X9C3H-P6K1W-M8F5R', 'available'),
+(81, 41, 'L4M9V-B2T8N-J5D1R', 'available'),
+(82, 52, 'M1P7Q-W5F3K-C8X2R', 'available'),
+(83, 36, 'R9N4B-J2D7T-M6L1V', 'available'),
+(84, 49, 'F3C8X-K9P1M-W4Q7R', 'available'),
+(85, 53, 'C7X1R-P8K4F-M3W9Q', 'available'),
+(86, 57, 'V9T5N-L2J8B-D4R1M', 'available'),
+(87, 45, 'Q4W7P-M1K6C-F9X2R', 'available'),
+(88, 14, 'T1J6R-N8B3D-L5M9V', 'available'),
+(89, 28, 'M6L3V-B9T4N-J1D8R', 'available'),
+(90, 46, 'K4P8C-W7F2M-X9Q1R', 'available'),
+(91, 68, 'D8R2T-N5J9B-L1M4V', 'available'),
+(92, 40, 'X8C2F-P5K1M-W9Q4R', 'available'),
+(93, 39, 'L5M1V-B3T8N-J6D2R', 'available'),
+(94, 62, 'F7C5X-K9P4M-W1Q8R', 'available'),
+(95, 38, 'J2D6N-B8T3R-M4L9V', 'available'),
+(96, 70, 'W1Q4P-M6K9C-F7X2R', 'available'),
+(97, 50, 'N6B1V-T4J9R-D2M5P', 'available'),
+(98, 25, 'P9M3W-K4C8X-F5Q1R', 'available'),
+(99, 29, 'R4N8B-J5D1T-M7L2V', 'available'),
+(100, 55, 'C3X6R-P9K2F-M8W1Q', 'available'),
+(101, 40, 'V8T1N-L7J4B-D9R5M', 'available'),
+(102, 32, 'Q2W8P-M3K5C-F6X9R', 'available'),
+(103, 26, 'T5J2R-N9B4D-L8M1V', 'available'),
+(104, 37, 'M1L7V-B4T9N-J2D5R', 'available'),
+(105, 60, 'K6P5C-W2F7M-X4Q8R', 'available'),
+(106, 28, 'D9R4T-N6J1B-L3M7V', 'available'),
+(107, 11, 'X4C9F-P1K6M-W8Q2R', 'available'),
+(108, 54, 'L3M8V-B1T5N-J9D4R', 'available'),
+(109, 59, 'F5C2X-K7P1M-W4Q9R', 'available'),
+(110, 47, 'J1D7N-B3T6R-M8L2V', 'available'),
+(112, 47, 'W9Q5P-M2K8C-F4X1R', 'available'),
+(114, 51, 'N4B8V-T1J5R-D7M3P', 'available'),
+(116, 21, 'P6M1W-K8C3X-F2Q9R', 'available'),
+(117, 68, 'R2N5B-J9D4T-M1L6V', 'available'),
+(118, 61, 'C8X4R-P5K9F-M2W7Q', 'available'),
+(119, 50, 'V4T9N-L1J6B-D3R8M', 'available'),
+(120, 29, 'Q7W2P-M8K1C-F5X4R', 'available'),
+(121, 66, 'T8J5R-N2B7D-L4M9V', 'available'),
+(123, 65, 'A3N8V-C6J1M-Y4K9P', 'available'),
+(124, 66, 'R5D7X-B2H8Q-L9F3T', 'available'),
+(125, 56, 'K4W1Z-P8M6N-X2R7C', 'available'),
+(126, 46, 'T9L3A-Q5V8J-H1Y6M', 'available'),
+(127, 61, 'Y6H1T-M3Q8D-K7V2N', 'available'),
+(128, 33, 'J8R5M-L2C9X-P4T7A', 'available'),
+(129, 45, 'N1K6W-F8Y3Q-R5H9C', 'available');
 
 -- --------------------------------------------------------
 
@@ -190,10 +426,23 @@ CREATE TABLE `genres` (
 --
 
 INSERT INTO `genres` (`id`, `name`) VALUES
+(6, 'ACTION'),
+(10, 'ADVENTURE'),
+(15, 'FIGHTING'),
+(7, 'FPS'),
+(12, 'HORROR'),
+(17, 'INDIE'),
 (3, 'MMORPG'),
+(5, 'MULTIPLAYER'),
 (2, 'OPEN WORLD'),
+(9, 'PLATFORMER'),
+(11, 'PUZZLE'),
+(8, 'RACING'),
 (1, 'RPG'),
-(4, 'SANDBOX');
+(4, 'SANDBOX'),
+(14, 'SIMULATION'),
+(13, 'SPORTS'),
+(16, 'SURVIVAL');
 
 -- --------------------------------------------------------
 
@@ -255,9 +504,9 @@ INSERT INTO `tickets` (`id`, `user_id`, `category`, `subject`, `message`, `attac
 CREATE TABLE `ticket_replies` (
   `id` int NOT NULL,
   `ticket_id` int NOT NULL,
-  `sender_role` enum('user','admin','chatbot') COLLATE utf8mb4_general_ci NOT NULL,
+  `sender_role` enum('user','admin','chatbot') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `sender_id` int DEFAULT NULL,
-  `message` text COLLATE utf8mb4_general_ci NOT NULL,
+  `message` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -495,19 +744,19 @@ ALTER TABLE `user_libraries`
 -- AUTO_INCREMENT for table `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `favorites`
 --
 ALTER TABLE `favorites`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `feedbacks`
@@ -519,25 +768,25 @@ ALTER TABLE `feedbacks`
 -- AUTO_INCREMENT for table `games`
 --
 ALTER TABLE `games`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
 
 --
 -- AUTO_INCREMENT for table `game_genres`
 --
 ALTER TABLE `game_genres`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=226;
 
 --
 -- AUTO_INCREMENT for table `game_keys`
 --
 ALTER TABLE `game_keys`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=130;
 
 --
 -- AUTO_INCREMENT for table `genres`
 --
 ALTER TABLE `genres`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `promo_codes`
@@ -561,7 +810,7 @@ ALTER TABLE `ticket_replies`
 -- AUTO_INCREMENT for table `transactions`
 --
 ALTER TABLE `transactions`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT for table `transaction_details`
